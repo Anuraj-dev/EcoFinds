@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from database import db
 from config import setup_database
+from models.product import Product
 
 app = Flask(__name__)
 
@@ -17,7 +18,9 @@ def root():
 
 @app.route("/listings")
 def allListings():
-    return render_template("index.html")
+    # Query all products
+    products = Product.query.all()
+    return render_template("index.html", products=products)
 
 if __name__ == '__main__':
     with app.app_context():
