@@ -1,8 +1,21 @@
 {% extends "layout.html" %} {% block body %}
-<h1>All Listings</h1>
-<ul>
+<h1>All Products</h1>
+<div class="row">
   {% for product in products: %}
-  <li><a href="/listings/{{product.id}}">{{product.title}}</a></li>
+  <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+    <a href="/products/{{product.id}}" class="product-link">
+      <div class="card">
+        <img
+          src="{{product.image_url}}"
+          class="card-img-top"
+          alt="product_image" />
+        <div class="card-body">
+          <p class="card-text">{{product.title}}</p>
+          <p class="card-text">{{product.price}}</p>
+        </div>
+      </div>
+    </a>
+  </div>
   {% endfor %}
-</ul>
+</div>
 {% endblock %}

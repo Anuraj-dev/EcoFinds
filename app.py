@@ -17,14 +17,14 @@ def root():
     return "I am Root"
 
 #Index route
-@app.route("/listings")
-def allListings():
+@app.route("/products")
+def allProducts():
     # Query all products
     products = Product.query.all()
     return render_template("index.html", products=products)
 
 #Show route
-@app.route("/listings/<id>")
+@app.route("/products/<id>")
 def showListing(id):
     product = Product.query.get_or_404(id)
     return render_template("show.html", product=product)
