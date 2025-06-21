@@ -2,10 +2,233 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif !important;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding-top: 4rem;
+  min-height: 100vh;
+  background-color: #ffffff; /* Whisper White */
+  color: #424242; /* Charcoal Grey */
 }
 
+/* Navigation styling - can be added when implementing navigation */
+.navbar {
+  background-color: #2e7d32; /* Forest Green */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero section */
+.hero-section {
+  background-color: #2e7d32; /* Forest Green */
+  padding: 5rem 0;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url("https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2913&q=80");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Main content */
+.main-content {
+  padding: 2rem 0 4rem;
+  flex: 1;
+}
+
+.eco-heading {
+  color: #2e7d32; /* Forest Green */
+  position: relative;
+  font-weight: 700;
+}
+
+/* Card styling */
+.eco-card {
+  background-color: #f1e9db; /* Warm Sand */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  border: none;
+}
+
+.eco-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.eco-card-img-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.eco-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.eco-card:hover .eco-card-img {
+  transform: scale(1.05);
+}
+
+.eco-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ffc107; /* Sunlit Amber */
+  color: #424242; /* Charcoal Grey */
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.eco-card-body {
+  padding: 1.25rem;
+}
+
+.eco-card-title {
+  color: #424242; /* Charcoal Grey */
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  height: 2.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.eco-card-price {
+  color: #2e7d32; /* Forest Green */
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+/* Button styling */
+.btn-amber {
+  background-color: #ffc107; /* Sunlit Amber */
+  color: #424242; /* Charcoal Grey */
+  border: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-amber:hover {
+  background-color: #ffb300;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-amber-outline {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffc107; /* Sunlit Amber */
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-amber-outline:hover {
+  background-color: #ffc107;
+  color: #424242;
+}
+
+.btn-outline-success {
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+.btn-outline-success:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+/* Eco Banner */
+.eco-banner {
+  background-color: #2e7d32; /* Forest Green */
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.eco-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url("https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2913&q=80");
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.eco-banner .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section dividers */
+.section-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(46, 125, 50, 0.2);
+  padding-bottom: 1rem;
+}
+
+/* Product link */
 .product-link {
   text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.product-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 3rem 0;
+  }
+
+  .eco-filters {
+    margin-top: 1rem;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eco-banner .btn-amber-outline {
+    margin-top: 1rem;
+  }
 }

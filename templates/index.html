@@ -1,21 +1,70 @@
 {% extends "layout.html" %} {% block body %}
-<h1>All Products</h1>
-<div class="row">
-  {% for product in products: %}
-  <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-    <a href="/products/{{product.id}}" class="product-link">
-      <div class="card">
-        <img
-          src="{{product.image_url}}"
-          class="card-img-top"
-          alt="product_image" />
-        <div class="card-body">
-          <p class="card-text">{{product.title}}</p>
-          <p class="card-text">{{product.price}}</p>
+<div class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-4 fw-bold text-white">
+          Discover Sustainable Treasures
+        </h1>
+        <p class="lead text-white-75">
+          Find unique pre-owned items and contribute to a more sustainable
+          future.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main-content">
+  <div
+    class="section-header d-flex justify-content-between align-items-center mb-4">
+    <h2 class="eco-heading">Explore Products</h2>
+    <div class="eco-filters">
+      <button class="btn btn-outline-success me-2">All Items</button>
+      <button class="btn btn-outline-success me-2">Featured</button>
+      <button class="btn btn-outline-success">Recent</button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    {% for product in products: %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <a href="/products/{{product.id}}" class="product-link">
+        <div class="eco-card">
+          <div class="eco-card-img-container">
+            <img
+              src="{{product.image_url}}"
+              class="eco-card-img"
+              alt="{{product.title}}" />
+            <div class="eco-badge">Pre-loved</div>
+          </div>
+          <div class="eco-card-body">
+            <h5 class="eco-card-title">{{product.title}}</h5>
+            <div class="d-flex justify-content-between align-items-center">
+              <p class="eco-card-price">${{product.price}}</p>
+              <button class="btn btn-amber">View Item</button>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="eco-banner mt-5">
+    <div class="container py-4">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h3 class="text-white mb-2">Join Our Sustainable Community</h3>
+          <p class="text-white-75 mb-0">
+            Every purchase helps extend product lifecycles and reduces waste.
+          </p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <button class="btn btn-amber-outline btn-lg">Learn More</button>
         </div>
       </div>
-    </a>
+    </div>
   </div>
-  {% endfor %}
 </div>
 {% endblock %}
