@@ -15,7 +15,6 @@ def setup_database():
         with connection.cursor() as cursor:
             cursor.execute("CREATE DATABASE IF NOT EXISTS ecofinds")
         connection.close()
-        print("Database 'ecofinds' checked/created successfully")
     except Exception as e:
         print(f"Error creating database: {e}")
     

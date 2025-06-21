@@ -2,7 +2,7 @@
 <h1>All Listings</h1>
 <ul>
   {% for product in products: %}
-  <li><a href="#">{{product.title}}</a></li>
+  <li><a href="/listings/{{product.id}}">{{product.title}}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}

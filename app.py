@@ -16,11 +16,18 @@ db.init_app(app)
 def root():
     return "I am Root"
 
+#Index route
 @app.route("/listings")
 def allListings():
     # Query all products
     products = Product.query.all()
     return render_template("index.html", products=products)
+
+#Show route
+@app.route("/listings/<id>")
+def showListing(id):
+    product = Product.query.get_or_404(id)
+    return render_template("show.html", product=product)
 
 if __name__ == '__main__':
     with app.app_context():
