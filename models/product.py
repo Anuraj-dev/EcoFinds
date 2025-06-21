@@ -1,8 +1,8 @@
 from database import db
 import uuid
 
-class Listing(db.Model):
-    __tablename__ = 'listing'
+class Product(db.Model):
+    __tablename__ = 'product'
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -10,4 +10,4 @@ class Listing(db.Model):
     price = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f'<Listing {self.title}>'
+        return f'<Product {self.title}>'
