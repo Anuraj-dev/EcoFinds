@@ -1,10 +1,16 @@
 {% extends "layout.html" %} {% block body %}
 <h1>Show Product</h1>
-<ul>
-  <li>{{product.title}}</li>
-  <li>{{product.description}}</li>
-  <li><a href="{{product.image_url}}">Image</a></li>
-  <li>{{product.price}}</li>
-</ul>
+
+<p>Title: {{product.title}}</p>
+<p>Desc: {{product.description}}</p>
+<p>Image: <a href="{{product.image_url}}">Image</a></p>
+<p>Price: ₹{{product.price}}</p>
+
+<br /><br />
+<div class="row">
+  <a class="btn btn-outline-success col-1" href="/products/{{product.id}}"
+    >Edit</a
+  >
+</div>
 
 {% endblock %}

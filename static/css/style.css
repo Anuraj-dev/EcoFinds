@@ -97,7 +97,7 @@ body {
   background-color: #ffc107; /* Sunlit Amber */
   color: #424242; /* Charcoal Grey */
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: 30px;
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -164,33 +164,6 @@ body {
 .btn-outline-success:hover {
   background-color: #2e7d32;
   color: white;
-}
-
-/* Eco Banner */
-.eco-banner {
-  background-color: #2e7d32; /* Forest Green */
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-}
-
-.eco-banner::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-image: url("https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2913&q=80");
-  background-position: center;
-  background-size: cover;
-  opacity: 0.1;
-  z-index: 0;
-}
-
-.eco-banner .container {
-  position: relative;
-  z-index: 1;
 }
 
 /* Section dividers */

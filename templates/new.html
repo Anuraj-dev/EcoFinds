@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block body %}
+
+<h1>Add New Product</h1>
+<form method="POST" action="/products">
+  <p><input type="text" placeholder="Title" name="title" id="title" /></p>
+  <p>
+    <textarea
+      type="text"
+      placeholder="Enter Short Description"
+      name="description"
+      id="description"
+      rows="3"></textarea>
+  </p>
+  {#
+  <input type="text" placeholder="Enter URL" name="image_url" id="image-url" />
+  #}
+  <p>
+    <input type="number" placeholder="Enter Price" name="price" id="price" />
+  </p>
+  <button>Submit Listing</button>
+</form>
+
+{% endblock %}
