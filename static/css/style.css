@@ -7,40 +7,6 @@ body {
   color: #424242; /* Charcoal Grey */
 }
 
-/* Navigation styling - can be added when implementing navigation */
-.navbar {
-  background-color: #2e7d32; /* Forest Green */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Hero section */
-.hero-section {
-  background-color: #2e7d32; /* Forest Green */
-  padding: 5rem 0;
-  margin-bottom: 3rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-image: url("https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2913&q=80");
-  background-size: cover;
-  background-position: center;
-  opacity: 0.15;
-  z-index: 0;
-}
-
-.hero-section .container {
-  position: relative;
-  z-index: 1;
-}
-
 .text-white-75 {
   color: rgba(255, 255, 255, 0.75);
 }

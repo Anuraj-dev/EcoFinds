@@ -1,16 +1,22 @@
 {% extends "layout.html" %} {% block body %}
-<h1>Show Product</h1>
-
-<p>Title: {{product.title}}</p>
-<p>Desc: {{product.description}}</p>
-<p>Image: <a href="{{product.image_url}}">Image</a></p>
-<p>Price: ₹{{product.price}}</p>
-
-<br /><br />
 <div class="row">
-  <a class="btn btn-outline-success col-1" href="/products/{{product.id}}"
-    >Edit</a
-  >
+  <div class="col-lg-8 offset-lg-3">
+    <h1>Show Product</h1>
+    <img src="{{product.image_url}}" alt="product_image" width="600px" />
+    <p>Title: {{product.title}}</p>
+    <p>Desc: {{product.description}}</p>
+    <p>Price: ₹{{product.price}}</p>
+
+    <br /><br />
+    <a
+      class="btn btn-outline-success col-1"
+      href="/products/{{product.id}}/edit"
+      >Edit</a
+    >
+    <form method="POST" action="/products/{{product.id}}/delete">
+      <button class="btn btn-outline-danger">Delete</button>
+    </form>
+  </div>
 </div>
 
 {% endblock %}

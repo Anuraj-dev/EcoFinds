@@ -1,0 +1,31 @@
+{% extends "layout.html" %} {% block body %}
+<form method="POST" action="/products/{{product.id}}">
+  <p>
+    <input
+      type="text"
+      placeholder="Title"
+      name="title"
+      id="title"
+      value="{{product.title}}" />
+  </p>
+  <p>
+    <textarea type="text" name="description" id="description" rows="3">
+{{product.description}} </textarea
+    >
+  </p>
+
+  <p>
+    <input
+      type="text"
+      placeholder="Enter URL"
+      name="image_url"
+      id="image_url"
+      value="{{product.image_url}}" />
+  </p>
+
+  <p>
+    <input type="number" name="price" id="price" value="{{product.price}}" />
+  </p>
+  <button>Update Listing</button>
+</form>
+{%endblock%}
