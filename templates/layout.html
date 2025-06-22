@@ -15,6 +15,12 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css') }}" />
+    {% endif %} {% if '/products/' in request.path and request.path !=
+    '/products/' and not '/edit' in request.path and not '/new' in request.path
+    %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/show.css') }}" />
     {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

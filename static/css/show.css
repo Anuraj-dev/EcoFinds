@@ -1,0 +1,291 @@
+/* Show Page Specific Styles */
+
+.product-showcase {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(90, 71, 51, 0.1);
+  padding: 2.5rem;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.product-showcase::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #f28d05, #fbc464, #7c3c04);
+  background-size: 200% 100%;
+  animation: gradientFlow 3s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.product-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #5a4733;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.product-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: #f28d05;
+  transition: width 0.4s ease;
+}
+
+.product-showcase:hover .product-title::after {
+  width: 100%;
+}
+
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.product-image-container::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    transparent 70%,
+    rgba(242, 141, 5, 0.2) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-image-container:hover::after {
+  opacity: 1;
+}
+
+.product-info {
+  margin-bottom: 2rem;
+}
+
+.product-label {
+  font-weight: 600;
+  color: #7c3c04;
+  margin-right: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.product-value {
+  font-size: 1.1rem;
+  color: #5a4733;
+  display: inline-block;
+}
+
+.product-info:hover .product-value {
+  transform: translateX(5px);
+}
+
+.product-price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f28d05;
+  margin: 1.5rem 0;
+  display: inline-block;
+  position: relative;
+  padding: 0.5rem 1rem;
+  background-color: rgba(242, 141, 5, 0.1);
+  border-radius: 4px;
+}
+
+.product-price:hover {
+  background-color: rgba(242, 141, 5, 0.2);
+}
+
+.product-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #5a4733;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(242, 141, 5, 0.3);
+  transition: border-left 0.3s ease;
+}
+
+.product-description:hover {
+  border-left: 3px solid rgba(242, 141, 5, 1);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-back {
+  display: inline-block;
+  color: #5a4733;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-back::before {
+  content: "←";
+  position: absolute;
+  left: 0;
+  transition: transform 0.3s ease;
+}
+
+.btn-back:hover {
+  color: #f28d05;
+  transform: translateX(-5px);
+}
+
+.btn-back:hover::before {
+  transform: translateX(-3px);
+}
+
+.btn-edit {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-edit::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(40, 167, 69, 0.2);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn-edit:hover::before {
+  left: 0;
+}
+
+.btn-delete {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-delete::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(220, 53, 69, 0.2);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn-delete:hover::before {
+  left: 0;
+}
+
+/* Eco badge */
+.eco-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(215, 214, 186, 0.9);
+  color: #7c3c04;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transform: rotate(5deg);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.eco-badge::before {
+  content: "♻️";
+  font-size: 1rem;
+}
+
+.eco-badge:hover {
+  transform: rotate(0deg) scale(1.05);
+  background-color: rgba(242, 141, 5, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-showcase {
+    padding: 1.5rem;
+  }
+
+  .product-title {
+    font-size: 1.8rem;
+  }
+
+  .product-price {
+    font-size: 1.5rem;
+  }
+
+  .product-image-container {
+    aspect-ratio: 16 / 9; /* Maintain aspect ratio on mobile */
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}

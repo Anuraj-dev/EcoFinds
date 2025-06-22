@@ -1,21 +1,42 @@
 {% extends "layout.html" %} {% block body %}
-<div class="row">
-  <div class="col-lg-8 offset-lg-3">
-    <h1>Show Product</h1>
-    <img src="{{product.image_url}}" alt="product_image" width="600px" />
-    <p>Title: {{product.title}}</p>
-    <p>Desc: {{product.description}}</p>
-    <p>Price: ₹{{product.price}}</p>
+<div class="container main-content">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <a href="/products" class="btn-back">Back to Products</a>
 
-    <br /><br />
-    <a
-      class="btn btn-outline-success col-1"
-      href="/products/{{product.id}}/edit"
-      >Edit</a
-    >
-    <form method="POST" action="/products/{{product.id}}/delete">
-      <button class="btn btn-outline-danger">Delete</button>
-    </form>
+      <div class="product-showcase">
+        <div class="eco-badge">Sustainable Find</div>
+
+        <h1 class="product-title">{{product.title}}</h1>
+
+        <div class="product-image-container">
+          <img
+            src="{{product.image_url}}"
+            alt="{{product.title}}"
+            class="product-image" />
+        </div>
+
+        <div class="product-info">
+          <span class="product-label">Description:</span>
+          <div class="product-description">{{product.description}}</div>
+        </div>
+
+        <div class="product-price">₹{{product.price}}</div>
+
+        <div class="action-buttons">
+          <a
+            class="btn btn-outline-success btn-edit"
+            href="/products/{{product.id}}/edit"
+            >Edit Product</a
+          >
+          <form method="POST" action="/products/{{product.id}}/delete">
+            <button class="btn btn-outline-danger btn-delete">
+              Delete Product
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
