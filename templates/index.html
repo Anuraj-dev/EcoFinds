@@ -1,11 +1,41 @@
 {% extends "layout.html" %} {% block body %}
 
-<div class="container main-content">
+<!-- Hero Banner Section -->
+<div class="hero-banner">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <h1 class="hero-title">
+          Find Treasures, <span class="text-accent">Save the Planet</span>
+        </h1>
+        <p class="hero-subtitle">
+          Discover unique pre-loved items that give products a second life while
+          reducing waste.
+        </p>
+        <div class="hero-actions">
+          <a href="/products/new" class="btn btn-primary-eco me-2"
+            >Sell Your Items</a
+          >
+          <a href="#products" class="btn btn-secondary-eco">Explore Products</a>
+        </div>
+      </div>
+      <div class="col-md-5 d-none d-md-block">
+        <div class="hero-image-container">
+          <!-- Animated circles created with CSS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main-content" id="products">
   <div
     class="section-header d-flex justify-content-between align-items-center mb-4">
     <h2 class="eco-heading">Explore Products</h2>
     <div class="eco-filters">
-      <a href="/products/new" class="btn btn-outline-success me-2">Sell +</a>
+      <a href="/products/new" class="btn btn-outline-primary-eco me-2"
+        >Sell +</a
+      >
     </div>
   </div>
 
@@ -19,13 +49,13 @@
               src="{{product.image_url}}"
               class="eco-card-img"
               alt="{{product.title}}" />
-            <div class="eco-badge">Pre-loved</div>
+            <div class="card-overlay">
+              <div class="quick-view">View Details</div>
+            </div>
           </div>
           <div class="eco-card-body">
             <h5 class="eco-card-title">{{product.title}}</h5>
-            <div class="d-flex justify-content-between align-items-center">
-              <p class="eco-card-price">₹{{product.price}}</p>
-            </div>
+            <p class="eco-card-price">₹{{product.price}}</p>
           </div>
         </div>
       </a>
@@ -37,12 +67,70 @@
     <div class="container py-4">
       <div class="row align-items-center">
         <div class="col-md-8">
-          <h3 class="text-white mb-2">Join Our Sustainable Community</h3>
-          <p class="text-white-75 mb-0">
+          <h3 class="banner-title mb-2">Join Our Sustainable Community</h3>
+          <p class="banner-text mb-3">
             Every purchase helps extend product lifecycles and reduces waste.
           </p>
+          <div class="eco-stats d-flex">
+            <div class="eco-stat me-4">
+              <span class="eco-stat-number">1200+</span>
+              <span class="eco-stat-label">Items Reused</span>
+            </div>
+            <div class="eco-stat me-4">
+              <span class="eco-stat-number">350+</span>
+              <span class="eco-stat-label">Happy Users</span>
+            </div>
+            <div class="eco-stat">
+              <span class="eco-stat-number">2.5 tons</span>
+              <span class="eco-stat-label">Waste Reduced</span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 text-md-end"></div>
+        <div class="col-md-4 text-md-end">
+          <a href="/products/new" class="btn btn-secondary-eco btn-lg"
+            >Start Selling</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="eco-features mt-5 mb-4">
+    <div class="container">
+      <h3 class="text-center mb-4">
+        Why Choose <span class="text-accent">EcoFinds</span>?
+      </h3>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">♻️</div>
+            <h4 class="feature-title">Eco-Friendly</h4>
+            <p class="feature-text">
+              Reduce waste by giving products a second life through our
+              marketplace.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h4 class="feature-title">Save Money</h4>
+            <p class="feature-text">
+              Find quality pre-loved items at a fraction of their original
+              price.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <div class="feature-icon">🤝</div>
+            <h4 class="feature-title">Community</h4>
+            <p class="feature-text">
+              Join a growing community of environmentally conscious consumers.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
