@@ -14,7 +14,7 @@ db.init_app(app)
 
 @app.route('/')
 def root():
-    return "I am Root"
+    return render_template("root.html")
 
 #Index route
 @app.route("/products/")

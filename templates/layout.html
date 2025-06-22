@@ -6,7 +6,16 @@
     <title>EcoFinds</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='/css/style.css') }}" />
+      href="{{ url_for('static', filename='css/style.css') }}" />
+    {% if request.path == '/' %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/root.css') }}" />
+    {% endif %} {% if request.path == '/products/' %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}" />
+    {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
