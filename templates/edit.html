@@ -1,31 +1,81 @@
 {% extends "layout.html" %} {% block body %}
-<form method="POST" action="/products/{{product.id}}">
-  <p>
-    <input
-      type="text"
-      placeholder="Title"
-      name="title"
-      id="title"
-      value="{{product.title}}" />
-  </p>
-  <p>
-    <textarea type="text" name="description" id="description" rows="3">
-{{product.description}} </textarea
-    >
-  </p>
 
-  <p>
-    <input
-      type="text"
-      placeholder="Enter URL"
-      name="image_url"
-      id="image_url"
-      value="{{product.image_url}}" />
-  </p>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="mb-4">Edit Product</h1>
+      <form
+        method="POST"
+        action="/products/{{product.id}}"
+        class="needs-validation"
+        novalidate>
+        <div class="mb-3">
+          <label for="title" class="form-label">Product Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="title"
+            id="title"
+            placeholder="Enter product title"
+            value="{{product.title}}"
+            required
+            minlength="3"
+            maxlength="100" />
+          <div class="invalid-feedback">
+            Please provide a valid product title (3-100 characters)
+          </div>
+        </div>
 
-  <p>
-    <input type="number" name="price" id="price" value="{{product.price}}" />
-  </p>
-  <button>Update Listing</button>
-</form>
-{%endblock%}
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            class="form-control"
+            name="description"
+            id="description"
+            rows="3"
+            placeholder="Enter product description"
+            required>
+{{product.description}}</textarea
+          >
+          <div class="invalid-feedback">Please provide a description</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="image_url" class="form-label">Image URL</label>
+          <input
+            type="url"
+            class="form-control"
+            name="image_url"
+            id="image_url"
+            placeholder="https://example.com/image.jpg"
+            value="{{product.image_url}}" />
+          <div class="invalid-feedback">Please provide a valid URL.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label">Price (₹)</label>
+          <input
+            type="number"
+            class="form-control"
+            name="price"
+            id="price"
+            placeholder="Enter price"
+            value="{{product.price}}"
+            required
+            min="1" />
+          <div class="invalid-feedback">
+            Please provide a valid price (greater than ₹0).
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Update Listing
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
