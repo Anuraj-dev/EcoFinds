@@ -3,7 +3,7 @@
 .navbar {
   background: #ffffff !important;
   border: none !important;
-  border-bottom: 1px solid rgba(34, 197, 94, 0.2) !important;
+  border-bottom: 1px solid rgba(33, 158, 188, 0.2) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
   padding: 1rem 0 !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -25,7 +25,7 @@
 .navbar-brand {
   font-size: 2rem !important;
   font-weight: 800 !important;
-  color: #1b4332 !important;
+  color: #023047 !important;
   text-decoration: none !important;
   display: flex !important;
   align-items: center !important;
@@ -67,7 +67,7 @@
 }
 
 .nav-link {
-  color: #1b4332 !important;
+  color: #023047 !important;
   font-weight: 500 !important;
   font-size: 1rem !important;
   padding: 0.75rem 1rem !important;
@@ -90,14 +90,13 @@
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: #22c55e !important;
+  background: #ffb703 !important;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   border-radius: 1px !important;
 }
 
 .nav-link:hover {
-  color: #22c55e !important;
-  background: rgba(34, 197, 94, 0.1) !important;
+  background: rgba(255, 183, 3, 0.1) !important;
   transform: translateY(-1px) !important;
   box-shadow: none !important;
 }
@@ -116,10 +115,10 @@
 
 .search-input {
   background: rgba(0, 0, 0, 0.05) !important;
-  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  border: 1px solid rgba(33, 158, 188, 0.3) !important;
   border-radius: 25px !important;
   padding: 0.5rem 1rem 0.5rem 2.5rem !important;
-  color: #1b4332 !important;
+  color: #023047 !important;
   font-size: 0.9rem !important;
   width: 250px !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -129,19 +128,19 @@
 .search-input:focus {
   outline: none !important;
   background: rgba(255, 255, 255, 0.15) !important;
-  border-color: #22c55e !important;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2) !important;
+  border-color: #219ebc !important;
+  box-shadow: 0 0 0 3px rgba(33, 158, 188, 0.2) !important;
   width: 300px !important;
 }
 
 .search-input::placeholder {
-  color: rgba(27, 67, 50, 0.6) !important;
+  color: rgba(2, 48, 71, 0.6) !important;
 }
 
 .search-icon {
   position: absolute !important;
   left: 0.75rem !important;
-  color: rgba(27, 67, 50, 0.6) !important;
+  color: rgba(2, 48, 71, 0.6) !important;
   z-index: 10 !important;
   pointer-events: none !important;
 }
@@ -150,36 +149,36 @@
 .navbar-nav.ms-auto .nav-link {
   margin: 0 0.25rem !important;
   background: transparent !important;
-  color: #1b4332 !important;
+  color: #023047 !important;
   font-weight: 500 !important;
   border: none !important;
   box-shadow: none !important;
 }
 
 .navbar-nav.ms-auto .nav-link:hover {
-  color: #22c55e !important;
-  background: rgba(34, 197, 94, 0.1) !important;
+  color: #ffb703 !important;
+  background: rgba(255, 183, 3, 0.1) !important;
   transform: translateY(-1px) !important;
   box-shadow: none !important;
 }
 
 /* Special styling for Sell Products button */
 .navbar-nav .nav-link[href="/products/new"] {
-  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  background: linear-gradient(135deg, #ffb703, #fb8500) !important;
   color: #ffffff !important;
   font-weight: 600 !important;
   padding: 0.75rem 1.25rem !important;
   border-radius: 25px !important;
   border: none !important;
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(255, 183, 3, 0.3) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .navbar-nav .nav-link[href="/products/new"]:hover {
-  background: linear-gradient(135deg, #16a34a, #15803d) !important;
+  background: linear-gradient(135deg, #fb8500, #ffb703) !important;
   color: #ffffff !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(251, 133, 0, 0.4) !important;
 }
 
 .navbar-nav .nav-link[href="/products/new"]::after {
@@ -188,25 +187,25 @@
 
 /* Mobile Toggle Button */
 .navbar-toggler {
-  border: 2px solid #22c55e !important;
+  border: 2px solid #219ebc !important;
   border-radius: 8px !important;
   padding: 0.5rem !important;
-  background: rgba(34, 197, 94, 0.1) !important;
+  background: rgba(33, 158, 188, 0.1) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .navbar-toggler:focus {
-  box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.25) !important;
+  box-shadow: 0 0 0 0.2rem rgba(33, 158, 188, 0.25) !important;
 }
 
 .navbar-toggler:hover {
   transform: scale(1.05) !important;
-  background: rgba(34, 197, 94, 0.2) !important;
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2) !important;
+  background: rgba(33, 158, 188, 0.2) !important;
+  box-shadow: 0 4px 15px rgba(33, 158, 188, 0.2) !important;
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%2322C55E' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23219EBC' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
   width: 1.2rem !important;
   height: 1.2rem !important;
 }
@@ -214,16 +213,16 @@
 /* User Menu Dropdown */
 .dropdown-menu {
   background: #ffffff !important;
-  border: 1px solid rgba(34, 197, 94, 0.2) !important;
+  border: 1px solid rgba(33, 158, 188, 0.2) !important;
   border-radius: 12px !important;
-  box-shadow: 0 10px 25px rgba(27, 67, 50, 0.15) !important;
+  box-shadow: 0 10px 25px rgba(2, 48, 71, 0.15) !important;
   padding: 0.5rem 0 !important;
   margin-top: 0.5rem !important;
   min-width: 200px !important;
 }
 
 .dropdown-item {
-  color: #1b4332 !important;
+  color: #023047 !important;
   padding: 0.75rem 1.25rem !important;
   font-weight: 500 !important;
   font-size: 0.9rem !important;
@@ -233,18 +232,18 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(34, 197, 94, 0.1) !important;
-  color: #22c55e !important;
+  background: rgba(33, 158, 188, 0.1) !important;
+  color: #219ebc !important;
   transform: translateX(4px) !important;
 }
 
 .dropdown-item i {
-  color: #22c55e !important;
+  color: #219ebc !important;
   width: 16px !important;
 }
 
 .dropdown-divider {
-  border-color: rgba(34, 197, 94, 0.2) !important;
+  border-color: rgba(33, 158, 188, 0.2) !important;
   margin: 0.5rem 0 !important;
 }
 
@@ -257,7 +256,7 @@
 }
 
 .user-menu .fa-user {
-  background: rgba(34, 197, 94, 0.2) !important;
+  background: rgba(33, 158, 188, 0.2) !important;
   padding: 0.25rem !important;
   border-radius: 50% !important;
   width: 24px !important;
@@ -283,12 +282,12 @@
   }
 
   .navbar-collapse {
-    background: rgba(27, 67, 50, 0.98) !important;
+    background: rgba(2, 48, 71, 0.98) !important;
     border-radius: 15px !important;
     margin-top: 1rem !important;
     padding: 1.5rem !important;
-    box-shadow: 0 8px 25px rgba(27, 67, 50, 0.2) !important;
-    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    box-shadow: 0 8px 25px rgba(2, 48, 71, 0.2) !important;
+    border: 1px solid rgba(33, 158, 188, 0.2) !important;
   }
 
   .nav-link {
@@ -301,7 +300,7 @@
   .navbar-nav.ms-auto {
     margin-top: 1rem !important;
     padding-top: 1rem !important;
-    border-top: 1px solid rgba(34, 197, 94, 0.3) !important;
+    border-top: 1px solid rgba(33, 158, 188, 0.3) !important;
   }
 
   .search-input {
@@ -324,23 +323,23 @@ html {
 
 /* Active Link State */
 .nav-link.active {
-  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  background: linear-gradient(135deg, #219ebc, #8ecae6) !important;
   color: #ffffff !important;
 }
 
 .nav-link.active::before {
   left: 0 !important;
-  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  background: linear-gradient(135deg, #219ebc, #8ecae6) !important;
 }
 
 /* Accessibility Improvements */
 .nav-link:focus {
-  outline: 2px solid #f28d05 !important;
+  outline: 2px solid #ffb703 !important;
   outline-offset: 2px !important;
 }
 
 .navbar-toggler:focus {
-  outline: 2px solid #f28d05 !important;
+  outline: 2px solid #ffb703 !important;
   outline-offset: 2px !important;
 }
 

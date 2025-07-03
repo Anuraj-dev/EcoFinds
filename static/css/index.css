@@ -16,8 +16,8 @@
 
 .btn-outline-primary-eco {
   background: transparent !important;
-  color: #f28d05 !important;
-  border: 2px solid #f28d05 !important;
+  color: #219ebc !important;
+  border: 2px solid #219ebc !important;
   border-radius: 25px !important;
   padding: 0.5rem 1.25rem !important;
   font-weight: 600 !important;
@@ -30,10 +30,10 @@
 }
 
 .btn-outline-primary-eco:hover {
-  background: #f28d05 !important;
+  background: #219ebc !important;
   color: white !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 25px rgba(242, 141, 5, 0.3) !important;
+  box-shadow: 0 8px 25px rgba(33, 158, 188, 0.3) !important;
 }
 
 /* Product Grid */
@@ -72,7 +72,7 @@
   overflow: hidden !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border: 1px solid rgba(242, 141, 5, 0.1) !important;
+  border: 1px solid rgba(33, 158, 188, 0.1) !important;
   position: relative !important;
   height: 100% !important;
   display: flex !important;
@@ -80,8 +80,8 @@
 }
 
 .eco-card:hover {
-  box-shadow: 0 12px 30px rgba(242, 141, 5, 0.15) !important;
-  border-color: rgba(242, 141, 5, 0.3) !important;
+  box-shadow: 0 12px 30px rgba(33, 158, 188, 0.15) !important;
+  border-color: rgba(33, 158, 188, 0.3) !important;
 }
 
 /* Image Container with 16:9 Aspect Ratio */
@@ -185,7 +185,7 @@
   justify-content: space-between !important;
   margin-top: auto !important;
   padding-top: 0.75rem !important;
-  border-top: 1px solid rgba(242, 141, 5, 0.1) !important;
+  border-top: 1px solid rgba(33, 158, 188, 0.1) !important;
 }
 
 .eco-card-price {
@@ -207,7 +207,7 @@
 
 /* Quick Add Button */
 .quick-add-btn {
-  background: linear-gradient(135deg, #f28d05, #a37f5d) !important;
+  background: linear-gradient(135deg, #ffb703, #fb8500) !important;
   color: white !important;
   border: none !important;
   border-radius: 8px !important;
@@ -222,9 +222,9 @@
 }
 
 .quick-add-btn:hover {
-  background: linear-gradient(135deg, #a37f5d, #7c3c04) !important;
+  background: linear-gradient(135deg, #fb8500, #023047) !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 15px rgba(242, 141, 5, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(255, 183, 3, 0.3) !important;
 }
 
 /* Product Link Reset */
@@ -280,9 +280,9 @@
 
 /* Focus Management */
 .eco-card:focus-within {
-  outline: 3px solid #f28d05 !important;
+  outline: 3px solid #219ebc !important;
   outline-offset: 2px !important;
-  box-shadow: 0 12px 30px rgba(242, 141, 5, 0.2) !important;
+  box-shadow: 0 12px 30px rgba(33, 158, 188, 0.2) !important;
 }
 
 .product-link:focus {
@@ -292,7 +292,7 @@
 .action-btn:focus,
 .quick-add-btn:focus,
 .btn-outline-primary-eco:focus {
-  outline: 3px solid #f28d05 !important;
+  outline: 3px solid #219ebc !important;
   outline-offset: 2px !important;
 }
 
