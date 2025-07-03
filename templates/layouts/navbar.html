@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <i class="fa-solid fa-leaf"></i>
+      <span>EcoFinds</span>
+    </a>
+
+    <!-- Search Bar -->
+    <div class="navbar-search d-none d-lg-flex">
+      <i class="fa-solid fa-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search eco-friendly products..."
+        aria-label="Search products" />
+    </div>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Mobile Search -->
+      <div class="navbar-search d-lg-none mt-3">
+        <i class="fa-solid fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search eco-friendly products..."
+          aria-label="Search products" />
+      </div>
+
+      <div class="navbar-nav">
+        <a class="nav-link" href="/products" aria-label="Explore products">
+          <i class="fa-solid fa-compass me-1"></i>Explore
+        </a>
+        <a class="nav-link" href="#" aria-label="Browse categories">
+          <i class="fa-solid fa-tags me-1"></i>Categories
+        </a>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <a
+          class="nav-link"
+          href="/products/new"
+          aria-label="Sell your products">
+          <i class="fa-solid fa-plus me-1"></i>Sell Products
+        </a>
+
+        <!-- User Menu Dropdown -->
+        <div class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle user-menu"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="User menu">
+            <i class="fa-solid fa-user me-1"></i>Account
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="/signup"
+                ><i class="fa-solid fa-user-plus me-2"></i>Sign Up</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="/login"
+                ><i class="fa-solid fa-sign-in-alt me-2"></i>Log In</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="#"
+                ><i class="fa-solid fa-heart me-2"></i>Wishlist</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="#"
+                ><i class="fa-solid fa-shopping-bag me-2"></i>My Orders</a
+              >
+            </li>
+            <!-- Show this only when user is logged in -->
+            <!-- <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-sign-out-alt me-2"></i>Log Out</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

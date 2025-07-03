@@ -3,7 +3,7 @@
 .form-container {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
   min-height: 100vh !important;
-  /* padding: 2rem 0 !important; */
+  padding: 1rem 0 !important;
 }
 
 .form-header {

@@ -3,7 +3,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #d7d6ba; /* Light Background */
+  background-color: #ffffff; /* White Background */
   color: #5a4733; /* Dark Text/Contrast */
 }
 
@@ -15,6 +15,7 @@ body {
 .main-content {
   padding: 2rem 0 4rem;
   flex: 1;
+  contain: layout style paint;
 }
 
 .eco-heading {
@@ -142,14 +143,133 @@ body {
   color: inherit;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .eco-filters {
-    margin-top: 1rem;
+/* Performance Optimizations */
+
+/* Enable hardware acceleration for smooth animations */
+.eco-card,
+.eco-card-img,
+.action-btn,
+.quick-add-btn {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize font loading */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+}
+
+/* Critical CSS inlining for above-the-fold content */
+/* Navbar and header styles are already critical and optimized */
+
+/* Reduce layout shifts */
+.eco-card-img {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Optimize image loading */
+.eco-card-img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.eco-card-img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Scroll performance */
+.main-content {
+  contain: layout style paint;
+}
+
+/* Memory optimization for large grids */
+.product-grid {
+  contain: layout;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* Reduce repaints */
+.eco-card::before,
+.eco-card::after {
+  content-visibility: hidden;
+}
+
+.eco-card:hover::before,
+.eco-card:hover::after {
+  content-visibility: visible;
+}
+
+/* Progressive enhancement */
+@supports (backdrop-filter: blur(10px)) {
+  .navbar {
+    backdrop-filter: blur(10px) !important;
+    background: rgba(27, 67, 50, 0.95) !important;
+  }
+}
+
+@supports (aspect-ratio: 16/9) {
+  .eco-card-img-container {
+    aspect-ratio: 16/9;
+  }
+}
+
+/* Containment for performance */
+.eco-card {
+  contain: layout style;
+}
+
+/* Optimize filter effects */
+@supports (filter: blur(0)) {
+  .loading-blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
   }
 
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .loading-blur.loaded {
+    filter: blur(0);
+  }
+}
+
+/* Preload critical resources hint */
+.preload-hint::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMSA9TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDMgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjMjJDNTVFIi8+Cjwvc3ZnPgo=");
+}
+
+/* Reduce complexity for slower devices */
+@media (max-width: 768px) {
+  .eco-card::before {
+    display: none;
+  }
+
+  .action-btn {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High refresh rate optimization */
+@media (min-resolution: 120dpi) {
+  .eco-card {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
