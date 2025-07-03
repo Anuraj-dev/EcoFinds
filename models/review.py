@@ -15,7 +15,7 @@ class Review(db.Model):
     product_id: Mapped[str] = mapped_column(String(36), ForeignKey('product.id'), nullable=False)
     author: Mapped[str] = mapped_column(String(100), nullable=False)
     rating: Mapped[int] = mapped_column(Integer, nullable=False)  # Rating from 1-5
-    comment: Mapped[str] = mapped_column(Text, nullable=True)
+    comment: Mapped[str] = mapped_column(Text, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     
     # Relationship back to Product
