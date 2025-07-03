@@ -1,17 +1,17 @@
 {% extends "layout.html" %} {% block body %}
 
 <div class="form-container">
-  <div class="container py-5">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-8">
         <!-- Header Section -->
         <div class="form-header">
           <div class="form-icon">
-            <i class="fas fa-leaf"></i>
+            <i class="fas fa-seedling"></i>
           </div>
-          <h1 class="form-title">Add New Product</h1>
+          <h1 class="form-title">List Your Eco-Find</h1>
           <p class="form-subtitle">
-            Share your eco-friendly finds with our community
+            Help build a sustainable marketplace by sharing your pre-loved treasures
           </p>
         </div>
 
@@ -35,13 +35,17 @@
                   class="form-control"
                   name="title"
                   id="title"
-                  placeholder="e.g. Eco-friendly Water Bottle"
+                  placeholder="What are you selling? (e.g., Vintage Leather Jacket)"
                   required
                   minlength="3"
                   maxlength="100" />
                 <div class="invalid-feedback">
                   <i class="fas fa-exclamation-circle me-1"></i>
-                  Please provide a valid product name (3-100 characters)
+                  Please enter a product name between 3-100 characters
+                </div>
+                <div class="valid-feedback">
+                  <i class="fas fa-check-circle me-1"></i>
+                  Looks good!
                 </div>
               </div>
 
@@ -56,12 +60,17 @@
                   name="description"
                   id="description"
                   rows="4"
-                  placeholder="Describe features, condition, and eco benefits..."
+                  placeholder="Tell buyers about the item's condition, features, and why it's a great sustainable choice..."
                   required
+                  minlength="10"
                   style="resize: vertical"></textarea>
                 <div class="invalid-feedback">
                   <i class="fas fa-exclamation-circle me-1"></i>
-                  Please provide a detailed description
+                  Please provide a detailed description (at least 10 characters)
+                </div>
+                <div class="valid-feedback">
+                  <i class="fas fa-check-circle me-1"></i>
+                  Great description!
                 </div>
               </div>
 
@@ -75,10 +84,10 @@
                   class="form-control"
                   name="image_url"
                   id="image_url"
-                  placeholder="https://example.com/image.jpg" />
+                  placeholder="https://imgur.com/your-image.jpg (optional but recommended)" />
                 <div class="form-text">
-                  <i class="fas fa-info-circle"></i>
-                  Optional: Add image URL to showcase your product
+                  <i class="fas fa-camera"></i>
+                  A good photo increases your chances of selling by 70%!
                 </div>
               </div>
 

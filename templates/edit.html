@@ -1,81 +1,186 @@
 {% extends "layout.html" %} {% block body %}
 
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <h1 class="mb-4">Edit Product</h1>
-      <form
-        method="POST"
-        action="/products/{{product.id}}"
-        class="needs-validation"
-        novalidate>
-        <div class="mb-3">
-          <label for="title" class="form-label">Product Title</label>
-          <input
-            type="text"
-            class="form-control"
-            name="title"
-            id="title"
-            placeholder="Enter product title"
-            value="{{product.title}}"
-            required
-            minlength="3"
-            maxlength="100" />
-          <div class="invalid-feedback">
-            Please provide a valid product title (3-100 characters)
+<div class="form-container">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <!-- Header Section -->
+        <div class="form-header">
+          <div class="form-icon">
+            <i class="fas fa-edit"></i>
           </div>
+          <h1 class="form-title">Edit Product</h1>
+          <p class="form-subtitle">Update your eco-friendly product listing</p>
         </div>
 
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea
-            class="form-control"
-            name="description"
-            id="description"
-            rows="3"
-            placeholder="Enter product description"
-            required>
+        <!-- Form Card -->
+        <div class="form-card">
+          <div class="form-body">
+            <form
+              method="POST"
+              action="/products/{{product.id}}"
+              class="needs-validation"
+              novalidate
+              id="editProductForm">
+              <!-- Product Name -->
+              <div class="form-group">
+                <label for="title" class="form-label">
+                  <i class="fas fa-tag"></i>Product Name
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="title"
+                  id="title"
+                  placeholder="e.g. Eco-friendly Water Bottle"
+                  value="{{product.title}}"
+                  required
+                  minlength="3"
+                  maxlength="100" />
+                <div class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  Please provide a valid product name (3-100 characters)
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label for="description" class="form-label">
+                  <i class="fas fa-align-left"></i>Description
+                  <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  name="description"
+                  id="description"
+                  rows="4"
+                  placeholder="Describe features, condition, and eco benefits..."
+                  required
+                  style="resize: vertical">
 {{product.description}}</textarea
-          >
-          <div class="invalid-feedback">Please provide a description</div>
-        </div>
+                >
+                <div class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  Please provide a detailed description
+                </div>
+              </div>
 
-        <div class="mb-3">
-          <label for="image_url" class="form-label">Image URL</label>
-          <input
-            type="url"
-            class="form-control"
-            name="image_url"
-            id="image_url"
-            placeholder="https://example.com/image.jpg"
-            value="{{product.image_url}}" />
-          <div class="invalid-feedback">Please provide a valid URL.</div>
-        </div>
+              <!-- Image URL -->
+              <div class="form-group">
+                <label for="image_url" class="form-label">
+                  <i class="fas fa-image"></i>Product Image
+                </label>
+                <input
+                  type="url"
+                  class="form-control"
+                  name="image_url"
+                  id="image_url"
+                  placeholder="https://example.com/image.jpg"
+                  value="{{product.image_url}}" />
+                <div class="form-text">
+                  <i class="fas fa-info-circle"></i>
+                  Optional: Add image URL to showcase your product
+                </div>
+              </div>
 
-        <div class="mb-3">
-          <label for="price" class="form-label">Price (₹)</label>
-          <input
-            type="number"
-            class="form-control"
-            name="price"
-            id="price"
-            placeholder="Enter price"
-            value="{{product.price}}"
-            required
-            min="1" />
-          <div class="invalid-feedback">
-            Please provide a valid price (greater than ₹0).
+              <!-- Price -->
+              <div class="form-group">
+                <label for="price" class="form-label">
+                  <i class="fas fa-rupee-sign"></i>Price
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fas fa-rupee-sign"></i>
+                  </span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="price"
+                    id="price"
+                    placeholder="0"
+                    value="{{product.price}}"
+                    required
+                    min="1"
+                    step="1" />
+                </div>
+                <div class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  Please provide a valid price (greater than ₹0)
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn-cancel"
+                  onclick="history.back()">
+                  <i class="fas fa-arrow-left me-2"></i>Cancel
+                </button>
+                <button type="submit" class="btn-submit" id="updateBtn">
+                  <i class="fas fa-save me-2"></i>Update Listing
+                </button>
+              </div>
+            </form>
           </div>
         </div>
 
-        <div class="d-grid">
-          <button type="submit" class="btn btn-primary btn-lg">
-            Update Listing
-          </button>
+        <!-- Help Text -->
+        <div class="help-text">
+          <i class="fas fa-info-circle"></i>
+          Changes will be applied immediately after saving
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- Bootstrap Form Validation Script -->
+<script>
+  (function () {
+    "use strict";
+
+    const form = document.getElementById("editProductForm");
+    const updateBtn = document.getElementById("updateBtn");
+
+    form.addEventListener("submit", function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Add shake animation to invalid fields
+        const invalidFields = form.querySelectorAll(":invalid");
+        invalidFields.forEach((field) => {
+          field.classList.add("animate__animated", "animate__headShake");
+          setTimeout(() => {
+            field.classList.remove("animate__animated", "animate__headShake");
+          }, 1000);
+        });
+      } else {
+        // Show loading state
+        updateBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin me-2"></i>Updating...';
+        updateBtn.disabled = true;
+      }
+
+      form.classList.add("was-validated");
+    });
+
+    // Real-time validation feedback
+    const inputs = form.querySelectorAll("input, textarea");
+    inputs.forEach((input) => {
+      input.addEventListener("input", function () {
+        if (this.checkValidity()) {
+          this.classList.remove("is-invalid");
+          this.classList.add("is-valid");
+        } else {
+          this.classList.remove("is-valid");
+          this.classList.add("is-invalid");
+        }
+      });
+    });
+  })();
+</script>
 {% endblock %}
