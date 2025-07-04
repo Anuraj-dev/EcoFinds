@@ -1,11 +1,12 @@
 from database import db
 import uuid
-from sqlalchemy import String, Text, Integer
+from sqlalchemy import String, Text, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from .review import Review
+    from .user import User
 
 DEFAULT_IMAGE = "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
@@ -17,8 +18,20 @@ class Product(db.Model):
     image_url: Mapped[str] = mapped_column(String(255), default=DEFAULT_IMAGE)
     price: Mapped[int] = mapped_column(Integer, nullable=False)
     
+    # Foreign key to User (seller) - required
+    seller_id: Mapped[str] = mapped_column(String(36), ForeignKey('user.id'), nullable=False)
+    
+    # Foreign key to User (buyer) - optional, null until purchased
+    buyer_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey('user.id'), nullable=True)
+    
     # One-to-many relationship with Review
     reviews: Mapped[list["Review"]] = relationship("Review", back_populates="product", cascade="all, delete-orphan")
+    
+    # Many-to-one relationship with User (seller)
+    seller: Mapped["User"] = relationship("User", back_populates="products_selling", foreign_keys=[seller_id])
+    
+    # Many-to-one relationship with User (buyer) - optional
+    buyer: Mapped[Optional["User"]] = relationship("User", back_populates="products_bought", foreign_keys=[buyer_id])
 
     def __repr__(self) -> str:
         return f'<Product {self.title}>'
@@ -29,3 +42,7 @@ class Product(db.Model):
             return 0
         return sum(review.rating for review in self.reviews) / len(self.reviews)
     
+    def is_available(self):
+        """Check if the product is still available for purchase"""
+        return self.buyer_id is None
+
