@@ -19,7 +19,7 @@
               <h5 class="card-title">{{ item.product.title }}</h5>
               <p class="card-text">{{ item.product.description[:100] }}...</p>
               <p class="card-text">
-                <strong>${{ item.product.price }}</strong>
+                <strong>₹{{ item.product.price }}</strong>
               </p>
               <p class="card-text">
                 <small class="text-muted">Quantity: 1 (Unique Item)</small>
@@ -53,7 +53,7 @@
           <h5 class="card-title">Order Summary</h5>
           <p class="card-text">Total Items: {{ cart_items|length }}</p>
           <hr />
-          <p class="card-text"><strong>Total: ${{ total_price }}</strong></p>
+          <p class="card-text"><strong>Total: ₹{{ total_price }}</strong></p>
 
           {% if current_user.is_authenticated %}
           <a href="{{ url_for('checkout') }}" class="btn btn-success w-100"

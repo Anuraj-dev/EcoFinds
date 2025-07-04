@@ -24,7 +24,7 @@
                 <small class="text-muted">Unique Item</small>
               </div>
             </div>
-            <strong>${{ item.product.price }}</strong>
+            <strong>₹{{ item.product.price }}</strong>
           </div>
           {% endfor %}
         </div>
@@ -39,12 +39,12 @@
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <span>Items ({{ cart_items|length }}):</span>
-            <span>${{ total_price }}</span>
+            <span>₹{{ total_price }}</span>
           </div>
           <hr />
           <div class="d-flex justify-content-between">
             <strong>Total:</strong>
-            <strong>${{ total_price }}</strong>
+            <strong>₹{{ total_price }}</strong>
           </div>
 
           <form

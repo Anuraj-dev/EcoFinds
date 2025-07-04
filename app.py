@@ -498,7 +498,7 @@ def add_wishlist_to_cart(product_id):
         flash('This product is no longer available and has been removed from your wishlist.', 'error')
         return redirect(url_for('view_wishlist'))
     
-    # Check if user is trying to add their own product
+    # Check if user is trying to add their own product to cart
     if product.seller_id == current_user.id:
         flash('You cannot add your own product to cart.', 'error')
         return redirect(url_for('view_wishlist'))
@@ -563,6 +563,21 @@ def deleteReview(product_id, review_id):
     flash('Review deleted successfully.', 'success')
     # Redirect back to product page
     return redirect(url_for('showListing', id=product_id))
+
+# My Orders and Listings Routes
+@app.route('/my-orders')
+@login_required
+def my_orders():
+    """View user's purchase history"""
+    orders = Product.query.filter_by(buyer_id=current_user.id).order_by(Product.id.desc()).all()
+    return render_template('my_orders.html', orders=orders)
+
+@app.route('/my-listings')
+@login_required
+def my_listings():
+    """View user's product listings"""
+    listings = Product.query.filter_by(seller_id=current_user.id).order_by(Product.id.desc()).all()
+    return render_template('my_listings.html', listings=listings)
 
 if __name__ == '__main__':
     with app.app_context():

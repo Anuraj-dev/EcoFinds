@@ -1,0 +1,200 @@
+{% extends "layouts/layout.html" %} {% block body %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fa-solid fa-shopping-bag me-2"></i>My Orders</h2>
+    <a href="{{ url_for('allListings') }}" class="btn btn-outline-primary">
+      <i class="fa-solid fa-compass me-2"></i>Continue Shopping
+    </a>
+  </div>
+
+  {% if orders %}
+  <div class="row">
+    {% for order in orders %}
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 order-card">
+        <div class="position-relative">
+          <img
+            src="{{ order.image_url }}"
+            class="card-img-top"
+            alt="{{ order.title }}"
+            style="height: 200px; object-fit: cover" />
+          <span class="badge bg-success position-absolute top-0 end-0 m-2">
+            <i class="fa-solid fa-check me-1"></i>Purchased
+          </span>
+        </div>
+
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ order.title }}</h5>
+          <p class="card-text text-muted flex-grow-1">
+            {{ order.description[:100] }}{% if order.description|length > 100
+            %}...{% endif %}
+          </p>
+
+          <div class="mt-auto">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="text-success mb-0">₹{{ order.price }}</h5>
+              <small class="text-muted">
+                <i class="fa-solid fa-user me-1"></i>Sold by: {{
+                order.seller.name }}
+              </small>
+            </div>
+
+            <div class="d-grid gap-2">
+              <a
+                href="{{ url_for('showListing', id=order.id) }}"
+                class="btn btn-outline-primary">
+                <i class="fa-solid fa-eye me-2"></i>View Details
+              </a>
+
+              {% if not order.reviews|selectattr('user_id', 'equalto',
+              current_user.id)|list %}
+              <button
+                class="btn btn-warning btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#reviewModal{{ order.id }}">
+                <i class="fa-solid fa-star me-2"></i>Write Review
+              </button>
+              {% else %}
+              <small class="text-success text-center">
+                <i class="fa-solid fa-check-circle me-1"></i>Review Posted
+              </small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div
+      class="modal fade"
+      id="reviewModal{{ order.id }}"
+      tabindex="-1"
+      aria-labelledby="reviewModalLabel{{ order.id }}"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reviewModalLabel{{ order.id }}">
+              <i class="fa-solid fa-star me-2"></i>Review: {{ order.title }}
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <form
+            method="POST"
+            action="{{ url_for('createReview', id=order.id) }}">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="rating{{ order.id }}" class="form-label"
+                  >Rating</label
+                >
+                <div class="rating-input">
+                  {% for i in range(1, 6) %}
+                  <input
+                    type="radio"
+                    id="star{{ i }}_{{ order.id }}"
+                    name="rating"
+                    value="{{ i }}"
+                    required />
+                  <label for="star{{ i }}_{{ order.id }}" class="star-label">
+                    <i class="fa-solid fa-star"></i>
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="comment{{ order.id }}" class="form-label"
+                  >Review</label
+                >
+                <textarea
+                  class="form-control"
+                  id="comment{{ order.id }}"
+                  name="comment"
+                  rows="4"
+                  placeholder="Share your experience with this product..."
+                  required></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submit Review
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-5">
+    <div class="empty-state">
+      <i class="fa-solid fa-shopping-bag display-1 text-muted mb-3"></i>
+      <h3 class="text-muted">No Orders Yet</h3>
+      <p class="text-muted mb-4">
+        You haven't made any purchases yet. Start exploring our eco-friendly
+        products!
+      </p>
+      <a href="{{ url_for('allListings') }}" class="btn btn-primary btn-lg">
+        <i class="fa-solid fa-compass me-2"></i>Start Shopping
+      </a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<style>
+  .order-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #e0e0e0;
+  }
+
+  .order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .empty-state {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .rating-input input {
+    display: none;
+  }
+
+  .star-label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .rating-input input:checked ~ .star-label,
+  .rating-input input:checked ~ .star-label ~ .star-label {
+    color: #ffc107;
+  }
+
+  .star-label:hover,
+  .star-label:hover ~ .star-label {
+    color: #ffc107;
+  }
+</style>
+{% endblock %}
