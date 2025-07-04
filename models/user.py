@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .product import Product
+    from .review import Review
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -27,6 +28,9 @@ class User(db.Model):
         back_populates="buyer", 
         foreign_keys="Product.buyer_id"
     )
+    
+    # One-to-many relationship with Review
+    reviews: Mapped[list["Review"]] = relationship("Review", back_populates="user")
 
     def __repr__(self) -> str:
         return f'<User {self.name} ({self.email})>'

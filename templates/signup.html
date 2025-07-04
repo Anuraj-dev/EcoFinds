@@ -1,0 +1,80 @@
+{% extends "layouts/layout.html" %} {% block body %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center">Join EcoFinds</h3>
+        </div>
+        <div class="card-body text-center">
+          <p class="lead">
+            Create an account to start buying and selling eco-friendly products
+          </p>
+
+          <p class="text-muted mb-4">
+            Join our community of environmentally conscious buyers and sellers.
+            Discover sustainable products and contribute to a greener future.
+          </p>
+
+          <!-- Google OAuth Signup Button -->
+          <a href="{{ url_for('google_auth') }}" class="btn btn-danger btn-lg">
+            <i class="fab fa-google"></i> Sign up with Google
+          </a>
+
+          <hr class="my-4" />
+
+          <p class="text-muted">
+            <small>
+              By signing up, you agree to our terms of service and privacy
+              policy.
+            </small>
+          </p>
+
+          <!-- Link back to login page -->
+          <div class="mt-4">
+            <p class="text-muted">
+              Already have an account?
+              <a
+                href="{{ url_for('login') }}"
+                class="text-decoration-none fw-bold text-success">
+                Sign in here
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .btn-danger {
+    background-color: #db4437;
+    border-color: #db4437;
+  }
+
+  .btn-danger:hover {
+    background-color: #c23321;
+    border-color: #c23321;
+  }
+
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+
+  .card-header {
+    background-color: #28a745;
+    color: white;
+    border-bottom: none;
+  }
+
+  .text-success {
+    color: #28a745 !important;
+  }
+
+  .text-success:hover {
+    color: #1e7e34 !important;
+  }
+</style>
+{% endblock %}

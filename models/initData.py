@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from models.product import Product
+from models.user import User
 from config import setup_database
 from database import db
 from flask import Flask
@@ -153,6 +154,22 @@ def insert_products():
             return
         
         try:
+            # Create a default seller if no users exist
+            default_seller = User.query.filter_by(email="seller@ecofinds.com").first()
+            if not default_seller:
+                default_seller = User(
+                    email="seller@ecofinds.com",
+                    name="EcoFinds Store",
+                    google_id="default_store_001"
+                )
+                db.session.add(default_seller)
+                db.session.commit()
+                print("Created default seller user.")
+            
+            # Add seller_id to all products
+            for product_data in products:
+                product_data['seller_id'] = default_seller.id
+            
             # Bulk add all products
             for product_data in products:
                 db.session.add(Product(**product_data))

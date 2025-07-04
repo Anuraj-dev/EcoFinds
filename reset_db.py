@@ -13,6 +13,7 @@ from database import db
 from config import setup_database
 from models.product import Product
 from models.review import Review
+from models.user import User
 
 # Initialize Flask app
 app = Flask(__name__)

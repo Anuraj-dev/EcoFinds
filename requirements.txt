@@ -2,3 +2,7 @@ Flask
 Flask-SQLAlchemy
 PyMySQL
 cryptography
+Flask-Login
+Authlib
+requests
+python-dotenv
