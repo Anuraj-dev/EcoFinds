@@ -44,6 +44,20 @@
         <a class="nav-link" href="#" aria-label="Browse categories">
           <i class="fa-solid fa-tags me-1"></i>Categories
         </a>
+
+        <!-- Cart - visible to all users -->
+        <a
+          class="nav-link position-relative"
+          href="/cart"
+          aria-label="Shopping cart">
+          <i class="fa-solid fa-shopping-cart me-1"></i>Cart {% if cart_count >
+          0 %}
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ cart_count }}
+          </span>
+          {% endif %}
+        </a>
       </div>
 
       <div class="navbar-nav ms-auto">
@@ -76,7 +90,7 @@
               >
             </li>
             <li>
-              <a class="dropdown-item" href="#"
+              <a class="dropdown-item" href="/wishlist"
                 ><i class="fa-solid fa-heart me-2"></i>Wishlist</a
               >
             </li>
@@ -116,9 +130,9 @@
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <a class="dropdown-item" href="#"
-                ><i class="fa-solid fa-heart me-2"></i>Wishlist</a
-              >
+              <span class="dropdown-item-text text-muted">
+                <i class="fa-solid fa-heart me-2"></i>Login for Wishlist
+              </span>
             </li>
             <li>
               <a class="dropdown-item" href="#"

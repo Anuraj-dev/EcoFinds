@@ -204,6 +204,39 @@
             {% endif %}
           </div>
         </div>
+
+        <div class="product-actions mt-3">
+          {% if current_user.is_authenticated and product.seller_id ==
+          current_user.id %}
+          <!-- User's own product -->
+          <p class="text-muted">This is your product</p>
+          {% elif product.is_available() %}
+          <!-- Available product -->
+          <form
+            method="POST"
+            action="{{ url_for('add_to_cart', product_id=product.id) }}"
+            class="d-inline">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-shopping-cart me-1"></i>Add to Cart
+            </button>
+          </form>
+
+          {% if current_user.is_authenticated %}
+          <form
+            method="POST"
+            action="{{ url_for('add_to_wishlist', product_id=product.id) }}"
+            class="d-inline ms-2">
+            <button type="submit" class="btn btn-outline-danger">
+              <i class="fa-solid fa-heart me-1"></i>Add to Wishlist
+            </button>
+          </form>
+          {% endif %} {% else %}
+          <!-- Sold product -->
+          <button class="btn btn-secondary disabled">
+            <i class="fa-solid fa-check me-1"></i>Sold
+          </button>
+          {% endif %}
+        </div>
       </div>
     </div>
 

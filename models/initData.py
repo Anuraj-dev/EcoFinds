@@ -21,7 +21,7 @@ with app.app_context():
     db.create_all()
 
 # Sample product data
-products =[
+products = [
     {
         'title': 'AeroSport Sneakers',
         'description': 'Breathable athletic sneakers ideal for running and everyday wear.',
@@ -144,8 +144,6 @@ products =[
     }
 ]
 
-
-# Insert products into the database
 def insert_products():
     with app.app_context():
         # Skip if products already exist

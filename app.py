@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_login import login_user, logout_user, current_user
 from authlib.integrations.flask_client import OAuth
 from database import db
@@ -6,8 +6,10 @@ from config import setup_database, Config
 from models.product import Product
 from models.review import Review
 from models.user import User
+from models.cart import CartItem, Wishlist
 from auth import login_manager, init_user_auth_methods, login_required
 import requests
+import uuid
 
 app = Flask(__name__)
 
@@ -36,6 +38,47 @@ google = oauth.register(
         'scope': 'openid email profile'
     }
 )
+
+# Helper functions for cart management
+def get_session_id():
+    """Get or create session ID for anonymous users"""
+    if 'session_id' not in session:
+        session['session_id'] = str(uuid.uuid4())
+    return session['session_id']
+
+def get_cart_items():
+    """Get cart items for current user (logged in or anonymous) - only available products"""
+    if current_user.is_authenticated:
+        cart_items = CartItem.query.filter_by(user_id=current_user.id).all()
+    else:
+        session_id = get_session_id()
+        cart_items = CartItem.query.filter_by(session_id=session_id).all()
+    
+    # Filter out sold items and remove them from cart
+    available_items = []
+    for item in cart_items:
+        if item.product.is_available():
+            available_items.append(item)
+        else:
+            # Remove sold items from cart automatically
+            db.session.delete(item)
+    
+    db.session.commit()
+    return available_items
+
+def get_cart_count():
+    """Get total number of items in cart (only available products)"""
+    return len(get_cart_items())
+
+def remove_product_from_all_carts(product_id):
+    """Remove a product from all users' carts when it's sold"""
+    CartItem.query.filter_by(product_id=product_id).delete()
+    db.session.commit()
+
+# Add this context processor to make cart count available in all templates
+@app.context_processor
+def inject_cart_count():
+    return dict(cart_count=get_cart_count())
 
 @app.route('/')
 def root():
@@ -97,6 +140,29 @@ def google_callback():
         
         # Log in the user
         login_user(user)
+        
+        # Transfer anonymous cart to user account after login
+        if 'session_id' in session:
+            anonymous_cart_items = CartItem.query.filter_by(session_id=session['session_id']).all()
+            for item in anonymous_cart_items:
+                # Check if product is still available
+                if item.product.is_available():
+                    # Check if user already has this product in cart
+                    existing_item = CartItem.query.filter_by(
+                        user_id=user.id, 
+                        product_id=item.product_id
+                    ).first()
+                    
+                    if not existing_item:
+                        item.user_id = user.id
+                        item.session_id = None
+                    else:
+                        db.session.delete(item)
+                else:
+                    # Remove sold items
+                    db.session.delete(item)
+            
+            db.session.commit()
         
         # Redirect to next page or home
         next_page = request.args.get('next')
@@ -208,10 +274,251 @@ def deleteListing(id):
          flash('You can only delete your own products.', 'error')
          return redirect(url_for('showListing', id=id))
      
+     # Remove from all carts and wishlists before deleting
+     remove_product_from_all_carts(product.id)
+     Wishlist.query.filter_by(product_id=product.id).delete()
+     
      db.session.delete(product)
      db.session.commit()
      flash('Product deleted successfully.', 'success')
      return redirect(url_for("allListings"))
+
+# Cart Routes
+@app.route('/cart')
+def view_cart():
+    """View cart page"""
+    cart_items = get_cart_items()
+    total_price = sum(item.product.price for item in cart_items)
+    return render_template('cart.html', cart_items=cart_items, total_price=total_price)
+
+@app.route('/cart/add/<product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    product = Product.query.get_or_404(product_id)
+    
+    # Check if product is available
+    if not product.is_available():
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'message': 'This product is no longer available.'}), 400
+        flash('This product is no longer available.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    # Check if user is trying to add their own product
+    if current_user.is_authenticated and product.seller_id == current_user.id:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'message': 'You cannot add your own product to cart.'}), 400
+        flash('You cannot add your own product to cart.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    try:
+        if current_user.is_authenticated:
+            # For logged-in users
+            existing_item = CartItem.query.filter_by(
+                user_id=current_user.id, 
+                product_id=product_id
+            ).first()
+            
+            if existing_item:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'success': False, 'message': 'Product is already in your cart.'}), 400
+                flash('Product is already in your cart.', 'info')
+            else:
+                cart_item = CartItem(user_id=current_user.id, product_id=product_id, quantity=1)
+                db.session.add(cart_item)
+                db.session.commit()
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'success': True, 'message': 'Product added to cart!'})
+                flash('Product added to cart!', 'success')
+        else:
+            # For anonymous users
+            session_id = get_session_id()
+            existing_item = CartItem.query.filter_by(
+                session_id=session_id, 
+                product_id=product_id
+            ).first()
+            
+            if existing_item:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'success': False, 'message': 'Product is already in your cart.'}), 400
+                flash('Product is already in your cart.', 'info')
+            else:
+                cart_item = CartItem(session_id=session_id, product_id=product_id, quantity=1)
+                db.session.add(cart_item)
+                db.session.commit()
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'success': True, 'message': 'Product added to cart!'})
+                flash('Product added to cart!', 'success')
+    
+    except Exception as e:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'message': 'Error adding product to cart.'}), 500
+        flash('Error adding product to cart.', 'error')
+    
+    return redirect(url_for('showListing', id=product_id))
+
+@app.route('/cart/remove/<item_id>', methods=['POST'])
+def remove_from_cart(item_id):
+    """Remove item from cart"""
+    if current_user.is_authenticated:
+        cart_item = CartItem.query.filter_by(
+            id=item_id, 
+            user_id=current_user.id
+        ).first_or_404()
+    else:
+        session_id = get_session_id()
+        cart_item = CartItem.query.filter_by(
+            id=item_id, 
+            session_id=session_id
+        ).first_or_404()
+    
+    db.session.delete(cart_item)
+    db.session.commit()
+    flash('Item removed from cart.', 'info')
+    return redirect(url_for('view_cart'))
+
+@app.route('/checkout')
+@login_required
+def checkout():
+    """Checkout page - requires login"""
+    cart_items = get_cart_items()  # This automatically removes sold items
+    
+    if not cart_items:
+        flash('Your cart is empty.', 'info')
+        return redirect(url_for('view_cart'))
+    
+    total_price = sum(item.product.price for item in cart_items)
+    return render_template('checkout.html', cart_items=cart_items, total_price=total_price)
+
+@app.route('/checkout/process', methods=['POST'])
+@login_required
+def process_checkout():
+    """Process the checkout - mark products as sold"""
+    cart_items = get_cart_items()
+    
+    if not cart_items:
+        flash('Your cart is empty.', 'info')
+        return redirect(url_for('view_cart'))
+    
+    successful_purchases = []
+    failed_purchases = []
+    
+    for item in cart_items:
+        # Double-check if product is still available
+        if item.product.is_available():
+            # Mark as sold
+            item.product.buyer_id = current_user.id
+            successful_purchases.append(item.product.title)
+            
+            # Remove this product from ALL carts (including current user's)
+            remove_product_from_all_carts(item.product.id)
+        else:
+            failed_purchases.append(item.product.title)
+    
+    db.session.commit()
+    
+    # Show results
+    if successful_purchases:
+        flash(f'Successfully purchased: {", ".join(successful_purchases)}', 'success')
+    
+    if failed_purchases:
+        flash(f'These items were no longer available: {", ".join(failed_purchases)}', 'warning')
+    
+    return redirect(url_for('allListings'))
+
+# Wishlist Routes (requires login)
+@app.route('/wishlist')
+@login_required
+def view_wishlist():
+    """View wishlist page - shows all items, available and sold"""
+    wishlist_items = Wishlist.query.filter_by(user_id=current_user.id).all()
+    return render_template('wishlist.html', wishlist_items=wishlist_items)
+
+@app.route('/wishlist/add/<product_id>', methods=['POST'])
+@login_required
+def add_to_wishlist(product_id):
+    """Add product to wishlist"""
+    product = Product.query.get_or_404(product_id)
+    
+    # Check if product is available
+    if not product.is_available():
+        flash('This product is no longer available and cannot be added to wishlist.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    # Check if user is trying to add their own product
+    if product.seller_id == current_user.id:
+        flash('You cannot add your own product to wishlist.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    # Check if already in wishlist
+    existing_item = Wishlist.query.filter_by(
+        user_id=current_user.id, 
+        product_id=product_id
+    ).first()
+    
+    if existing_item:
+        flash('Product is already in your wishlist.', 'info')
+    else:
+        wishlist_item = Wishlist(user_id=current_user.id, product_id=product_id)
+        db.session.add(wishlist_item)
+        db.session.commit()
+        flash('Product added to wishlist!', 'success')
+    
+    return redirect(url_for('showListing', id=product_id))
+
+@app.route('/wishlist/remove/<product_id>', methods=['POST'])
+@login_required
+def remove_from_wishlist(product_id):
+    """Remove product from wishlist"""
+    wishlist_item = Wishlist.query.filter_by(
+        user_id=current_user.id, 
+        product_id=product_id
+    ).first_or_404()
+    
+    db.session.delete(wishlist_item)
+    db.session.commit()
+    flash('Product removed from wishlist.', 'info')
+    return redirect(url_for('view_wishlist'))
+
+@app.route('/wishlist/add-to-cart/<product_id>', methods=['POST'])
+@login_required
+def add_wishlist_to_cart(product_id):
+    """Add wishlist item to cart - with availability check"""
+    product = Product.query.get_or_404(product_id)
+    
+    # Check if product is still available
+    if not product.is_available():
+        # Remove from wishlist since it's sold
+        wishlist_item = Wishlist.query.filter_by(
+            user_id=current_user.id, 
+            product_id=product_id
+        ).first()
+        if wishlist_item:
+            db.session.delete(wishlist_item)
+            db.session.commit()
+        
+        flash('This product is no longer available and has been removed from your wishlist.', 'error')
+        return redirect(url_for('view_wishlist'))
+    
+    # Check if user is trying to add their own product
+    if product.seller_id == current_user.id:
+        flash('You cannot add your own product to cart.', 'error')
+        return redirect(url_for('view_wishlist'))
+    
+    # Check if already in cart
+    existing_cart_item = CartItem.query.filter_by(
+        user_id=current_user.id, 
+        product_id=product_id
+    ).first()
+    
+    if existing_cart_item:
+        flash('Product is already in your cart.', 'info')
+    else:
+        # Add to cart
+        cart_item = CartItem(user_id=current_user.id, product_id=product_id, quantity=1)
+        db.session.add(cart_item)
+        db.session.commit()
+        flash('Product added to cart from wishlist!', 'success')
+    
+    return redirect(url_for('view_wishlist'))
 
 #Review create route
 @app.route("/products/<id>/reviews", methods=["POST"])
@@ -236,7 +543,6 @@ def createReview(id):
     
     flash('Review added successfully!', 'success')
     return redirect(url_for('showListing', id=id))
-
 
 #Review delete route
 @app.route("/products/<product_id>/reviews/<review_id>/delete", methods=["POST"])

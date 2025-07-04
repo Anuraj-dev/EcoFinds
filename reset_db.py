@@ -14,6 +14,7 @@ from config import setup_database
 from models.product import Product
 from models.review import Review
 from models.user import User
+from models.cart import CartItem, Wishlist  
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -31,6 +32,7 @@ def reset_database():
         db.create_all()
         
         print("Database reset complete!")
+        print("Tables created: User, Product, Review, CartItem, Wishlist")
 
 if __name__ == "__main__":
     reset_database()

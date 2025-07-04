@@ -77,6 +77,7 @@
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
+  cursor: pointer !important;
 }
 
 .eco-card:hover {
@@ -219,6 +220,8 @@
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
+  z-index: 15 !important;
+  position: relative !important;
 }
 
 .quick-add-btn:hover {
@@ -256,6 +259,46 @@
   100% {
     background-position: -200% 0;
   }
+}
+
+/* Updated styles for new card structure */
+.eco-card .product-link {
+  color: inherit !important;
+  text-decoration: none !important;
+  display: block !important;
+}
+
+.eco-card .product-link:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.eco-card .eco-card-img-container .product-link {
+  display: block !important;
+  height: 100% !important;
+}
+
+.eco-card .card-footer form {
+  z-index: 10 !important;
+  position: relative !important;
+}
+
+/* Success and error states for cart button */
+.quick-add-btn.btn-success {
+  background-color: #16a34a !important;
+  border-color: #16a34a !important;
+  color: white !important;
+}
+
+.quick-add-btn.btn-danger {
+  background-color: #dc2626 !important;
+  border-color: #dc2626 !important;
+  color: white !important;
+}
+
+.quick-add-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
 }
 
 /* Responsive Adjustments */

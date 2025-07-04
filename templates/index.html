@@ -8,20 +8,25 @@
       class="eco-card"
       role="article"
       aria-labelledby="product-{{ product.id }}-title">
-      <a
-        href="/products/{{ product.id }}"
-        class="product-link"
-        aria-label="View details for {{ product.title }}">
-        <!-- Product Image Container -->
-        <div class="eco-card-img-container">
+      <!-- Product Image Container -->
+      <div class="eco-card-img-container">
+        <a
+          href="/products/{{ product.id }}"
+          class="product-link"
+          aria-label="View details for {{ product.title }}">
           <img
             src="{{ product.image_url }}"
             class="eco-card-img"
             alt="{{ product.title }}" />
-        </div>
+        </a>
+      </div>
 
-        <!-- Card Body -->
-        <div class="eco-card-body">
+      <!-- Card Body -->
+      <div class="eco-card-body">
+        <a
+          href="/products/{{ product.id }}"
+          class="product-link text-decoration-none"
+          aria-label="View details for {{ product.title }}">
           <h2 class="eco-card-title" id="product-{{ product.id }}-title">
             {{ product.title }}
           </h2>
@@ -41,25 +46,35 @@
             </div>
             <span class="rating-text">(4.5)</span>
           </div>
+        </a>
 
-          <!-- Price and Actions -->
-          <div class="card-footer">
-            <div class="price-section">
+        <!-- Price and Actions -->
+        <div class="card-footer">
+          <div class="price-section">
+            <a
+              href="/products/{{ product.id }}"
+              class="product-link text-decoration-none"
+              aria-label="View details for {{ product.title }}">
               <div class="price-label">Price</div>
               <div
                 class="eco-card-price"
                 aria-label="Price ₹{{ product.price }}">
                 ₹{{ product.price }}
               </div>
-            </div>
+            </a>
+          </div>
+          <form
+            method="POST"
+            action="{{ url_for('add_to_cart', product_id=product.id) }}">
             <button
               class="quick-add-btn"
+              type="submit"
               aria-label="Add {{ product.title }} to cart">
               <i class="fa-solid fa-cart-plus"></i>
             </button>
-          </div>
+          </form>
         </div>
-      </a>
+      </div>
     </article>
     {% endfor %}
   </div>
