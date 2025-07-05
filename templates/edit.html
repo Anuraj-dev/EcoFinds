@@ -84,6 +84,35 @@
                 </div>
               </div>
 
+              <!-- Category -->
+              <div class="form-group">
+                <label for="category" class="form-label">
+                  <i class="fas fa-tags"></i>Category
+                  <span class="text-danger">*</span>
+                </label>
+                <select
+                  class="form-select"
+                  name="category"
+                  id="category"
+                  required>
+                  <option value="">Choose a category...</option>
+                  <option value="Electronics" {% if product.category == "Electronics" %}selected{% endif %}>Electronics</option>
+                  <option value="Clothing & Fashion" {% if product.category == "Clothing & Fashion" %}selected{% endif %}>Clothing & Fashion</option>
+                  <option value="Home & Garden" {% if product.category == "Home & Garden" %}selected{% endif %}>Home & Garden</option>
+                  <option value="Books & Media" {% if product.category == "Books & Media" %}selected{% endif %}>Books & Media</option>
+                  <option value="Sports & Outdoors" {% if product.category == "Sports & Outdoors" %}selected{% endif %}>Sports & Outdoors</option>
+                  <option value="Toys & Games" {% if product.category == "Toys & Games" %}selected{% endif %}>Toys & Games</option>
+                  <option value="Health & Beauty" {% if product.category == "Health & Beauty" %}selected{% endif %}>Health & Beauty</option>
+                  <option value="Automotive" {% if product.category == "Automotive" %}selected{% endif %}>Automotive</option>
+                  <option value="Arts & Crafts" {% if product.category == "Arts & Crafts" %}selected{% endif %}>Arts & Crafts</option>
+                  <option value="Other" {% if product.category == "Other" %}selected{% endif %}>Other</option>
+                </select>
+                <div class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  Please select a category for your product
+                </div>
+              </div>
+
               <!-- Price -->
               <div class="form-group">
                 <label for="price" class="form-label">

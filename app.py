@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, current_user
 from authlib.integrations.flask_client import OAuth
 from database import db
 from config import setup_database, Config
-from models.product import Product
+from models.product import Product, PRODUCT_CATEGORIES
 from models.review import Review
 from models.user import User
 from models.cart import CartItem, Wishlist
@@ -188,15 +188,70 @@ def logout():
 #Index route
 @app.route("/products/")
 def allListings():
-    # Query all products
-    products = Product.query.all()
-    return render_template("index.html", products=products)
+    # Get filter parameters
+    search_query = request.args.get('search', '').strip()
+    category_filter = request.args.get('category', '')
+    min_price = request.args.get('min_price', type=int)
+    max_price = request.args.get('max_price', type=int)
+    status_filter = request.args.get('status', '')
+    
+    # Start with base query
+    query = Product.query
+    
+    # Apply search filter
+    if search_query:
+        query = query.filter(
+            Product.title.ilike(f'%{search_query}%') | 
+            Product.description.ilike(f'%{search_query}%')
+        )
+    
+    # Apply category filter
+    if category_filter and category_filter in PRODUCT_CATEGORIES:
+        query = query.filter(Product.category == category_filter)
+    
+    # Apply price range filter
+    if min_price is not None:
+        query = query.filter(Product.price >= min_price)
+    if max_price is not None:
+        query = query.filter(Product.price <= max_price)
+    
+    # Apply status filter
+    if status_filter == 'available':
+        query = query.filter(Product.buyer_id.is_(None))
+    elif status_filter == 'sold':
+        query = query.filter(Product.buyer_id.isnot(None))
+    
+    # Execute query and get results
+    products = query.order_by(Product.created_at.desc()).all()
+    
+    return render_template("index.html", 
+                         products=products, 
+                         categories=PRODUCT_CATEGORIES,
+                         search_query=search_query,
+                         category_filter=category_filter,
+                         min_price=min_price,
+                         max_price=max_price,
+                         status_filter=status_filter)
+
+# Search route
+@app.route("/search")
+def search():
+    return redirect(url_for('allListings', **request.args))
+
+# Category route
+@app.route("/products/category/<category_name>")
+def categoryListings(category_name):
+    if category_name not in PRODUCT_CATEGORIES:
+        flash(f'Category "{category_name}" not found.', 'error')
+        return redirect(url_for('allListings'))
+    
+    return redirect(url_for('allListings', category=category_name))
 
 #New route
 @app.route("/products/new")
 @login_required
 def renderNewForm():
-    return render_template("new.html")
+    return render_template("new.html", categories=PRODUCT_CATEGORIES)
 
 #Show route
 @app.route("/products/<id>")
@@ -239,7 +294,7 @@ def renderEditForm(id):
         flash('You can only edit your own products.', 'error')
         return redirect(url_for('showListing', id=id))
     
-    return render_template("edit.html", product=product)
+    return render_template("edit.html", product=product, categories=PRODUCT_CATEGORIES)
 
 #Update route
 @app.route("/products/<id>", methods=["POST"])

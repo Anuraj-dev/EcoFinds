@@ -6,14 +6,19 @@
     </a>
 
     <!-- Search Bar -->
-    <div class="navbar-search d-none d-lg-flex">
+    <form
+      class="navbar-search d-none d-lg-flex"
+      method="GET"
+      action="{{ url_for('search') }}">
       <i class="fa-solid fa-search search-icon"></i>
       <input
         type="text"
+        name="search"
         class="search-input"
         placeholder="Search eco-friendly products..."
+        value="{{ search_query or '' }}"
         aria-label="Search products" />
-    </div>
+    </form>
 
     <button
       class="navbar-toggler"
@@ -28,21 +33,23 @@
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <!-- Mobile Search -->
-      <div class="navbar-search d-lg-none mt-3">
+      <form
+        class="navbar-search d-lg-none mt-3"
+        method="GET"
+        action="{{ url_for('search') }}">
         <i class="fa-solid fa-search search-icon"></i>
         <input
           type="text"
+          name="search"
           class="search-input"
           placeholder="Search eco-friendly products..."
+          value="{{ search_query or '' }}"
           aria-label="Search products" />
-      </div>
+      </form>
 
       <div class="navbar-nav">
         <a class="nav-link" href="/products" aria-label="Explore products">
           <i class="fa-solid fa-compass me-1"></i>Explore
-        </a>
-        <a class="nav-link" href="#" aria-label="Browse categories">
-          <i class="fa-solid fa-tags me-1"></i>Categories
         </a>
 
         <!-- Cart - visible to all users -->

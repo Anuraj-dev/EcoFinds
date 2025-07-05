@@ -1,6 +1,119 @@
 {% extends "./layouts/layout.html" %} {% block body %}
 
 <div class="container main-content">
+  <!-- Filters Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0"><i class="fa-solid fa-filter me-2"></i>Filters</h5>
+          <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
+            <i class="fa-solid fa-chevron-down me-1"></i>Show Filters
+          </button>
+        </div>
+        <div class="collapse{% if search_query or category_filter or min_price or max_price or status_filter %} show{% endif %}" id="filterSection">
+          <div class="card-body">
+            <form method="GET" action="{{ url_for('allListings') }}" id="filterForm">
+              <div class="row g-3 align-items-end">
+                <!-- Search -->
+                <div class="col-md-3">
+                  <label for="search" class="form-label">Search</label>
+                  <input type="text" class="form-control" id="search" name="search" 
+                         value="{{ search_query or '' }}" placeholder="Search products...">
+                </div>
+                
+                <!-- Category -->
+                <div class="col-md-2">
+                  <label for="category" class="form-label">Category</label>
+                  <select class="form-select" id="category" name="category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}" {% if category_filter == category %}selected{% endif %}>
+                      {{ category }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                
+                <!-- Price Range -->
+                <div class="col-md-2">
+                  <label for="min_price" class="form-label">Min Price (₹)</label>
+                  <input type="number" class="form-control" id="min_price" name="min_price" 
+                         value="{{ min_price or '' }}" min="0" placeholder="0">
+                </div>
+                
+                <div class="col-md-2">
+                  <label for="max_price" class="form-label">Max Price (₹)</label>
+                  <input type="number" class="form-control" id="max_price" name="max_price" 
+                         value="{{ max_price or '' }}" min="0" placeholder="No limit">
+                </div>
+                
+                <!-- Status -->
+                <div class="col-md-2">
+                  <label for="status" class="form-label">Status</label>
+                  <select class="form-select" id="status" name="status">
+                    <option value="">All Items</option>
+                    <option value="available" {% if status_filter == 'available' %}selected{% endif %}>Available</option>
+                    <option value="sold" {% if status_filter == 'sold' %}selected{% endif %}>Sold</option>
+                  </select>
+                </div>
+                
+                <!-- Buttons -->
+                <div class="col-md-1">
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-search"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Active Filters -->
+              {% if search_query or category_filter or min_price or max_price or status_filter %}
+              <div class="row mt-3">
+                <div class="col-12">
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <small class="text-muted me-2">Active filters:</small>
+                    {% if search_query %}
+                    <span class="badge bg-primary">Search: "{{ search_query }}"</span>
+                    {% endif %}
+                    {% if category_filter %}
+                    <span class="badge bg-success">Category: {{ category_filter }}</span>
+                    {% endif %}
+                    {% if min_price %}
+                    <span class="badge bg-info">Min: ₹{{ min_price }}</span>
+                    {% endif %}
+                    {% if max_price %}
+                    <span class="badge bg-info">Max: ₹{{ max_price }}</span>
+                    {% endif %}
+                    {% if status_filter %}
+                    <span class="badge bg-warning">{{ status_filter.title() }}</span>
+                    {% endif %}
+                    <a href="{{ url_for('allListings') }}" class="btn btn-sm btn-outline-secondary">
+                      <i class="fa-solid fa-times me-1"></i>Clear All
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Info -->
+  {% if search_query or category_filter or min_price or max_price or status_filter %}
+  <div class="row mb-3">
+    <div class="col-12">
+      <p class="text-muted">
+        <i class="fa-solid fa-leaf me-1"></i>
+        Found {{ products|length }} eco-friendly product{{ 's' if products|length != 1 else '' }}
+        matching your criteria
+      </p>
+    </div>
+  </div>
+  {% endif %}
+
   <!-- Product Grid -->
   <div class="product-grid">
     {% for product in products %}
@@ -45,6 +158,14 @@
               {% endif %} {% endfor %}
             </div>
             <span class="rating-text">(4.5)</span>
+          </div>
+
+          <!-- Category Badge -->
+          <div class="mb-2">
+            <span class="badge bg-secondary text-white">{{ product.category }}</span>
+            {% if not product.is_available() %}
+            <span class="badge bg-danger text-white ms-1">Sold</span>
+            {% endif %}
           </div>
         </a>
 
@@ -122,5 +243,26 @@
     </div>
   </div>
 </template>
+
+<script>
+// Enhanced filter toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const filterToggle = document.querySelector('[data-bs-target="#filterSection"]');
+  const filterSection = document.getElementById('filterSection');
+  const toggleIcon = filterToggle.querySelector('i');
+  const toggleText = filterToggle.querySelector('.me-1').nextSibling;
+  
+  // Update button text and icon when collapse state changes
+  filterSection.addEventListener('show.bs.collapse', function() {
+    toggleIcon.className = 'fa-solid fa-chevron-up me-1';
+    filterToggle.childNodes[filterToggle.childNodes.length - 1].textContent = 'Hide Filters';
+  });
+  
+  filterSection.addEventListener('hide.bs.collapse', function() {
+    toggleIcon.className = 'fa-solid fa-chevron-down me-1';
+    filterToggle.childNodes[filterToggle.childNodes.length - 1].textContent = 'Show Filters';
+  });
+});
+</script>
 
 {% endblock %}

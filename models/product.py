@@ -1,6 +1,7 @@
 from database import db
 import uuid
-from sqlalchemy import String, Text, Integer, ForeignKey
+from datetime import datetime
+from sqlalchemy import String, Text, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING, Optional
 
@@ -10,6 +11,20 @@ if TYPE_CHECKING:
 
 DEFAULT_IMAGE = "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
+# Product categories
+PRODUCT_CATEGORIES = [
+    "Electronics",
+    "Clothing & Fashion", 
+    "Home & Garden",
+    "Books & Media",
+    "Sports & Outdoors",
+    "Toys & Games",
+    "Health & Beauty",
+    "Automotive",
+    "Arts & Crafts",
+    "Other"
+]
+
 class Product(db.Model):
     __tablename__ = 'product'
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -17,6 +32,8 @@ class Product(db.Model):
     description: Mapped[str] = mapped_column(Text, nullable=False)
     image_url: Mapped[str] = mapped_column(String(255), default=DEFAULT_IMAGE)
     price: Mapped[int] = mapped_column(Integer, nullable=False)
+    category: Mapped[str] = mapped_column(String(50), nullable=False, default="Other")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     
     # Foreign key to User (seller) - required
     seller_id: Mapped[str] = mapped_column(String(36), ForeignKey('user.id'), nullable=False)
