@@ -301,6 +301,134 @@
   cursor: not-allowed !important;
 }
 
+/* Filter Section Styles */
+.filter-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(33, 158, 188, 0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+  overflow: hidden !important;
+}
+
+.filter-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(33, 158, 188, 0.1) !important;
+  padding: 1rem 1.25rem !important;
+}
+
+.filter-header h5 {
+  color: #219ebc !important;
+  font-weight: 600 !important;
+}
+
+.filter-collapse {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden !important;
+}
+
+.filter-body {
+  background: #ffffff !important;
+  padding: 1.5rem 1.25rem !important;
+  border-top: none !important;
+}
+
+/* Form Controls */
+.filter-body .form-label {
+  color: #374151 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.filter-body .form-control,
+.filter-body .form-select {
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 0.625rem 0.875rem !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s ease !important;
+  background: #ffffff !important;
+}
+
+.filter-body .form-control:focus,
+.filter-body .form-select:focus {
+  border-color: #219ebc !important;
+  box-shadow: 0 0 0 3px rgba(33, 158, 188, 0.1) !important;
+  outline: none !important;
+}
+
+/* Button Styles */
+.filter-body .btn-primary {
+  background: #219ebc !important;
+  border-color: #219ebc !important;
+  border-radius: 8px !important;
+  padding: 0.625rem 1rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.filter-body .btn-primary:hover {
+  background: #1a7a94 !important;
+  border-color: #1a7a94 !important;
+  transform: translateY(-1px) !important;
+}
+
+.filter-body .btn-outline-secondary {
+  color: #6b7280 !important;
+  border-color: #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 0.625rem 1rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  background: #ffffff !important;
+}
+
+.filter-body .btn-outline-secondary:hover {
+  background: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+  color: #374151 !important;
+}
+
+/* Active Filters Styling */
+.active-filters-container {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  padding: 1rem !important;
+  background: #f8fafc !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(33, 158, 188, 0.1) !important;
+}
+
+.active-filters-badges {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+}
+
+.active-filters-badges .badge {
+  font-size: 0.75rem !important;
+  padding: 0.375rem 0.75rem !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .filter-body {
+    padding: 1rem !important;
+  }
+
+  .filter-body .btn {
+    font-size: 0.875rem !important;
+  }
+
+  .active-filters-container {
+    padding: 0.75rem !important;
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 576px) {
   .section-header {

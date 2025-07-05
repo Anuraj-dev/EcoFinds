@@ -4,26 +4,20 @@
   <!-- Filters Section -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
+      <div class="card filter-card">
+        <div class="card-header filter-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0"><i class="fa-solid fa-filter me-2"></i>Filters</h5>
           <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
             <i class="fa-solid fa-chevron-down me-1"></i>Show Filters
           </button>
         </div>
-        <div class="collapse{% if search_query or category_filter or min_price or max_price or status_filter %} show{% endif %}" id="filterSection">
-          <div class="card-body">
+        <div class="collapse filter-collapse{% if search_query or category_filter or min_price or max_price or status_filter %} show{% endif %}" id="filterSection">
+          <div class="card-body filter-body">
             <form method="GET" action="{{ url_for('allListings') }}" id="filterForm">
               <div class="row g-3 align-items-end">
-                <!-- Search -->
-                <div class="col-md-3">
-                  <label for="search" class="form-label">Search</label>
-                  <input type="text" class="form-control" id="search" name="search" 
-                         value="{{ search_query or '' }}" placeholder="Search products...">
-                </div>
                 
                 <!-- Category -->
-                <div class="col-md-2">
+                <div class="col-lg-4 col-md-5 col-sm-7">
                   <label for="category" class="form-label">Category</label>
                   <select class="form-select" id="category" name="category">
                     <option value="">All Categories</option>
@@ -36,35 +30,26 @@
                 </div>
                 
                 <!-- Price Range -->
-                <div class="col-md-2">
+                <div class="col-lg-3 col-md-4 col-sm-7">
                   <label for="min_price" class="form-label">Min Price (₹)</label>
                   <input type="number" class="form-control" id="min_price" name="min_price" 
                          value="{{ min_price or '' }}" min="0" placeholder="0">
                 </div>
                 
-                <div class="col-md-2">
+                <div class="col-lg-3 col-md-4 col-sm-7">
                   <label for="max_price" class="form-label">Max Price (₹)</label>
                   <input type="number" class="form-control" id="max_price" name="max_price" 
                          value="{{ max_price or '' }}" min="0" placeholder="No limit">
                 </div>
                 
-                <!-- Status -->
-                <div class="col-md-2">
-                  <label for="status" class="form-label">Status</label>
-                  <select class="form-select" id="status" name="status">
-                    <option value="">All Items</option>
-                    <option value="available" {% if status_filter == 'available' %}selected{% endif %}>Available</option>
-                    <option value="sold" {% if status_filter == 'sold' %}selected{% endif %}>Sold</option>
-                  </select>
-                </div>
-                
                 <!-- Buttons -->
-                <div class="col-md-1">
+                <div class="col-lg-2 col-md-2 col-sm-6">
                   <button type="submit" class="btn btn-primary w-100">
-                    <i class="fa-solid fa-search"></i>
+                    <i class="fa-solid fa-search me-1"></i>
+                    <span class="d-none d-sm-inline">Search</span>
                   </button>
                 </div>
-              </div>
+                
               
               <!-- Active Filters -->
               {% if search_query or category_filter or min_price or max_price or status_filter %}
@@ -162,7 +147,6 @@
 
           <!-- Category Badge -->
           <div class="mb-2">
-            <span class="badge bg-secondary text-white">{{ product.category }}</span>
             {% if not product.is_available() %}
             <span class="badge bg-danger text-white ms-1">Sold</span>
             {% endif %}
