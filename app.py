@@ -413,22 +413,36 @@ def add_to_cart(product_id):
 @app.route('/cart/remove/<item_id>', methods=['POST'])
 def remove_from_cart(item_id):
     """Remove item from cart"""
-    if current_user.is_authenticated:
-        cart_item = CartItem.query.filter_by(
-            id=item_id, 
-            user_id=current_user.id
-        ).first_or_404()
-    else:
-        session_id = get_session_id()
-        cart_item = CartItem.query.filter_by(
-            id=item_id, 
-            session_id=session_id
-        ).first_or_404()
-    
-    db.session.delete(cart_item)
-    db.session.commit()
-    flash('Item removed from cart.', 'info')
-    return redirect(url_for('view_cart'))
+    try:
+        if current_user.is_authenticated:
+            cart_item = CartItem.query.filter_by(
+                id=item_id, 
+                user_id=current_user.id
+            ).first_or_404()
+        else:
+            session_id = get_session_id()
+            cart_item = CartItem.query.filter_by(
+                id=item_id, 
+                session_id=session_id
+            ).first_or_404()
+        
+        db.session.delete(cart_item)
+        db.session.commit()
+        
+        # Get updated count
+        count = get_cart_count()
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': 'Item removed from cart', 'count': count})
+        
+        flash('Item removed from cart.', 'info')
+        return redirect(url_for('view_cart'))
+        
+    except Exception as e:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'error': str(e)}), 500
+        flash('Error removing item from cart.', 'error')
+        return redirect(url_for('view_cart'))
 
 @app.route('/checkout')
 @login_required
@@ -685,6 +699,16 @@ def my_listings():
     """View user's product listings"""
     listings = Product.query.filter_by(seller_id=current_user.id).order_by(Product.id.desc()).all()
     return render_template('my_listings.html', listings=listings)
+
+# API Routes for AJAX interactions
+@app.route('/api/cart/count', methods=['GET'])
+def get_cart_count_api():
+    """API endpoint to get current cart count"""
+    try:
+        count = get_cart_count()
+        return jsonify({'success': True, 'count': count})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
     with app.app_context():

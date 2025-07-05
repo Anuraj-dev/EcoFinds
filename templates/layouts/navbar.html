@@ -57,13 +57,16 @@
           class="nav-link position-relative"
           href="/cart"
           aria-label="Shopping cart">
-          <i class="fa-solid fa-shopping-cart me-1"></i>Cart {% if cart_count >
-          0 %}
-          <span
-            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {{ cart_count }}
-          </span>
-          {% endif %}
+          <div class="cart-icon-container">
+            <i class="fa-solid fa-shopping-cart"></i>
+            {% if cart_count > 0 %}
+            <span
+              class="cart-badge {% if cart_count >= 10 %}high-count{% endif %} has-items">
+              {{ cart_count }}
+            </span>
+            {% endif %}
+          </div>
+          <span class="ms-1">Cart</span>
         </a>
       </div>
 
