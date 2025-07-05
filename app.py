@@ -8,7 +8,6 @@ from models.review import Review
 from models.user import User
 from models.cart import CartItem, Wishlist
 from auth import login_manager, init_user_auth_methods, login_required
-import requests
 import uuid
 
 app = Flask(__name__)

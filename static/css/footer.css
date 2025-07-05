@@ -1,0 +1,132 @@
+/* Footer Styles */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+}
+
+main {
+  flex: 1 !important;
+}
+
+footer {
+  background-color: #7c3c04;
+  color: #ffffff;
+  padding: 2rem 0 2rem;
+  margin-top: auto;
+  border-top: 3px solid #f28d05;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.f-info {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.f-info-socials {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.f-info-socials i {
+  font-size: 1.5rem;
+  color: #ffffff;
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.f-info-socials i:hover {
+  color: #f28d05; /* Accent color on hover */
+  transform: translateY(-2px);
+}
+
+.f-info > div:nth-child(2) {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #e8e8e8;
+}
+
+.f-info-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.f-info-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.f-info-links a:hover {
+  color: #f28d05; /* Accent color on hover */
+}
+
+.f-info-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background-color: #f28d05;
+  transition: width 0.3s ease;
+}
+
+.f-info-links a:hover::after {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .f-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .f-info-socials {
+    order: 1;
+  }
+
+  .f-info > div:nth-child(2) {
+    order: 3;
+    font-size: 0.9rem;
+  }
+
+  .f-info-links {
+    order: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 1.5rem 0 1rem;
+  }
+
+  .f-info-socials i {
+    font-size: 1.3rem;
+  }
+
+  .f-info-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

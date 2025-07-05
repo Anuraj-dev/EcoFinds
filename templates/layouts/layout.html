@@ -10,6 +10,9 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/navbar.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}" />
     {% if request.path == '/' %}
     <link
       rel="stylesheet"
@@ -74,7 +77,12 @@
       </div>
       {% endfor %}
     </div>
-    {% endif %} {% endwith %} {% block body %}{% endblock %}
+    {% endif %} {% endwith %}
+
+    <main class="flex-grow-1">{% block body %}{% endblock %}</main>
+
+    {% include "layouts/footer.html" %}
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
