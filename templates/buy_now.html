@@ -1,0 +1,143 @@
+{% extends "layouts/layout.html" %} {% block body %}
+<div class="container mt-4">
+  <h2><i class="fa-solid fa-credit-card me-2"></i>Buy Now - Quick Purchase</h2>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5>Product Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <img
+              src="{{ product.image_url }}"
+              width="120"
+              height="120"
+              class="rounded me-4"
+              alt="{{ product.title }}" />
+            <div class="flex-grow-1">
+              <h4 class="mb-2">{{ product.title }}</h4>
+              <p class="text-muted mb-2">{{ product.description }}</p>
+              <p class="mb-2">
+                <strong>Seller:</strong> {{ product.seller.name }}
+              </p>
+              <div class="eco-badge d-inline-block">Sustainable Find</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <div class="card-header">
+          <h5>Purchase Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fa-solid fa-info-circle me-2"></i>
+            <strong>Quick Purchase:</strong> This is a unique, second-hand item.
+            Once purchased, it will no longer be available to other buyers.
+          </div>
+
+          <div class="alert alert-warning">
+            <i class="fa-solid fa-exclamation-triangle me-2"></i>
+            <strong>Final Sale:</strong> All sales are final. Please ensure you
+            want to purchase this item before proceeding.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5>Payment Summary</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <span>Item Price:</span>
+            <span>₹{{ product.price }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Quantity:</span>
+            <span>1</span>
+          </div>
+          <hr />
+          <div class="d-flex justify-content-between mb-3">
+            <strong>Total:</strong>
+            <strong class="text-success">₹{{ product.price }}</strong>
+          </div>
+
+          <!-- Check if product is still available -->
+          {% if product.is_available() %}
+          <form
+            method="POST"
+            action="{{ url_for('process_buy_now', product_id=product.id) }}"
+            class="mb-3">
+            <button type="submit" class="btn btn-success w-100 btn-lg">
+              Complete purchase
+            </button>
+          </form>
+          {% else %}
+          <button class="btn btn-secondary w-100 btn-lg disabled">
+            <i class="fa-solid fa-times me-2"></i>No Longer Available
+          </button>
+          {% endif %}
+
+          <a
+            href="{{ url_for('showListing', id=product.id) }}"
+            class="btn btn-outline-secondary w-100 mb-2"
+            >Back to Product</a
+          >
+
+          <a
+            href="{{ url_for('allListings') }}"
+            class="btn btn-outline-primary w-100"
+            >Continue Shopping</a
+          >
+        </div>
+      </div>
+
+      <!-- Alternative Actions -->
+      <div class="card mt-3">
+        <div class="card-header">
+          <h6>Other Options</h6>
+        </div>
+        <div class="card-body">
+          {% if product.is_available() %}
+          <form
+            method="POST"
+            action="{{ url_for('add_to_cart', product_id=product.id) }}"
+            class="mb-2">
+            <button type="submit" class="btn btn-outline-primary w-100">
+              <i class="fa-solid fa-shopping-cart me-1"></i>Add to Cart Instead
+            </button>
+          </form>
+
+          <form
+            method="POST"
+            action="{{ url_for('add_to_wishlist', product_id=product.id) }}">
+            <button type="submit" class="btn btn-outline-danger w-100">
+              <i class="fa-solid fa-heart me-1"></i>Add to Wishlist
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .eco-badge {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+</style>
+{% endblock %}

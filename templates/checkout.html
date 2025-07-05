@@ -1,6 +1,12 @@
 {% extends "layouts/layout.html" %} {% block body %}
 <div class="container mt-4">
-  <h2><i class="fa-solid fa-credit-card me-2"></i>Checkout</h2>
+  <h2><i class="fa-solid fa-credit-card me-2"></i>Checkout - Cart Items</h2>
+
+  <div class="alert alert-info mb-3">
+    <i class="fa-solid fa-shopping-cart me-2"></i>
+    <strong>Cart Checkout:</strong> You are purchasing {{ cart_items|length }}
+    item(s) from your cart.
+  </div>
 
   <div class="row">
     <div class="col-md-8">

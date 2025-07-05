@@ -388,6 +388,58 @@ def checkout():
     total_price = sum(item.product.price for item in cart_items)
     return render_template('checkout.html', cart_items=cart_items, total_price=total_price)
 
+@app.route('/buy-now/<product_id>')
+@login_required
+def buy_now(product_id):
+    """Direct checkout for a single product - requires login"""
+    product = Product.query.get_or_404(product_id)
+    
+    # Check if product is available
+    if not product.is_available():
+        flash('This product is no longer available.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    # Check if user is trying to buy their own product
+    if product.seller_id == current_user.id:
+        flash('You cannot buy your own product.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    return render_template('buy_now.html', product=product)
+
+@app.route('/buy-now/process/<product_id>', methods=['POST'])
+@login_required
+def process_buy_now(product_id):
+    """Process direct purchase of a single product"""
+    product = Product.query.get_or_404(product_id)
+    
+    # Double-check if product is still available
+    if not product.is_available():
+        flash('This product is no longer available.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    # Check if user is trying to buy their own product
+    if product.seller_id == current_user.id:
+        flash('You cannot buy your own product.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+    
+    try:
+        # Mark as sold
+        product.buyer_id = current_user.id
+        
+        # Remove this product from ALL carts and wishlists
+        remove_product_from_all_carts(product.id)
+        Wishlist.query.filter_by(product_id=product.id).delete()
+        
+        db.session.commit()
+        
+        flash(f'Successfully purchased "{product.title}"!', 'success')
+        return redirect(url_for('my_orders'))
+        
+    except Exception as e:
+        db.session.rollback()
+        flash('An error occurred while processing your purchase. Please try again.', 'error')
+        return redirect(url_for('showListing', id=product_id))
+
 @app.route('/checkout/process', methods=['POST'])
 @login_required
 def process_checkout():
@@ -582,4 +634,4 @@ def my_listings():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+        app.run(debug=True)
