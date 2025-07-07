@@ -3,10 +3,7 @@ from flask_login import login_user, logout_user, current_user
 from authlib.integrations.flask_client import OAuth
 from database import db
 from config import setup_database, Config
-from models.product import Product, PRODUCT_CATEGORIES
-from models.review import Review
-from models.user import User
-from models.cart import CartItem, Wishlist
+from models import Product, PRODUCT_CATEGORIES, Review, User, CartItem, Wishlist
 from auth import login_manager, init_user_auth_methods, login_required
 import uuid
 

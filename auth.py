@@ -1,7 +1,7 @@
 from flask_login import LoginManager, UserMixin, current_user
 from flask import flash, redirect, url_for, request
 from functools import wraps
-from models.user import User
+from models import User
 
 # Create LoginManager instance
 login_manager = LoginManager()

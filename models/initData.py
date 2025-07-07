@@ -161,10 +161,7 @@ products = [
 def insert_products():
     with app.app_context():
         # Import all models to resolve relationships
-        from models.product import Product
-        from models.user import User
-        from models.cart import CartItem, Wishlist
-        from models.review import Review
+        from models import Product, User, CartItem, Wishlist, Review
         
         # Create tables
         db.create_all()
