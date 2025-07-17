@@ -228,12 +228,6 @@ def setup_database():
 3. **Manage Listings**: View and edit your products in "My Listings"
 4. **Track Sales**: Monitor earnings and sold items
 
-### Admin Features
-
-- User management through database
-- Product moderation capabilities
-- Analytics and reporting (extensible)
-
 ## 🌍 Sustainability Features
 
 - **Circular Economy**: Promotes reuse and extends product lifecycles
