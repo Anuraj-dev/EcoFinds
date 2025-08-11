@@ -36,10 +36,10 @@ class Product(db.Model):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     
     # Foreign key to User (seller) - required
-    seller_id: Mapped[str] = mapped_column(String(36), ForeignKey('user.id'), nullable=False)
+    seller_id: Mapped[str] = mapped_column(String(36), ForeignKey('users.id'), nullable=False)
     
     # Foreign key to User (buyer) - optional, null until purchased
-    buyer_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey('user.id'), nullable=True)
+    buyer_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey('users.id'), nullable=True)
     
     # One-to-many relationship with Review
     reviews: Mapped[list["Review"]] = relationship("Review", back_populates="product", cascade="all, delete-orphan")

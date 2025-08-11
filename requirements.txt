@@ -6,3 +6,4 @@ Flask-Login
 Authlib
 requests
 python-dotenv
+psycopg2-binary

@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from .cart import CartItem, Wishlist
 
 class User(db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)

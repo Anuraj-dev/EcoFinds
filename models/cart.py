@@ -15,7 +15,7 @@ class CartItem(db.Model):
     
     # For anonymous users, we'll use session_id; for logged users, user_id
     session_id: Mapped[str] = mapped_column(String(100), nullable=True)  # For anonymous users
-    user_id: Mapped[str] = mapped_column(String(36), ForeignKey('user.id'), nullable=True)  # For logged users
+    user_id: Mapped[str] = mapped_column(String(36), ForeignKey('users.id'), nullable=True)  # For logged users
     
     product_id: Mapped[str] = mapped_column(String(36), ForeignKey('product.id'), nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False, default=1)  # Add quantity field
@@ -36,7 +36,7 @@ class Wishlist(db.Model):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     
     # Only for logged users
-    user_id: Mapped[str] = mapped_column(String(36), ForeignKey('user.id'), nullable=False)
+    user_id: Mapped[str] = mapped_column(String(36), ForeignKey('users.id'), nullable=False)
     product_id: Mapped[str] = mapped_column(String(36), ForeignKey('product.id'), nullable=False)
     added_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     
