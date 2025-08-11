@@ -13,20 +13,38 @@ class Config:
 
 # Create database if it doesn't exist
 def setup_database():
-    password = urllib.parse.quote_plus('Raja@784175')
-    
-    # First connect to MySQL without specifying a database to create the database if it doesn't exist
-    try:
-        connection = pymysql.connect(
-            host='localhost',
-            user='root',
-            password='Raja@784175'
-        )
-        with connection.cursor() as cursor:
-            cursor.execute("CREATE DATABASE IF NOT EXISTS ecofinds")
-        connection.close()
-    except Exception as e:
-        print(f"Error creating database: {e}")
-    
-    # Return database URI
-    return f'mysql+pymysql://root:{password}@localhost/ecofinds'
+    """
+    Determine SQLAlchemy database URI.
+    - Production: Use DATABASE_URL if provided (e.g., PlanetScale, RDS, etc.)
+    - Otherwise: Build from individual env vars or fall back to a local MySQL instance.
+      In local dev only, attempt to create the DB if host is localhost.
+    """
+    # 1) Prefer a full DATABASE_URL if present
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+        return database_url
+
+    # 2) Compose from individual parts (env-overridable)
+    host = os.environ.get('DB_HOST', 'localhost')
+    user = os.environ.get('DB_USER', 'root')
+    raw_password = os.environ.get('DB_PASSWORD', '')
+    db_name = os.environ.get('DB_NAME', 'ecofinds')
+
+    password = urllib.parse.quote_plus(raw_password)
+
+    # 3) In local environments, try to create the database if it doesn't exist
+    if host in ('localhost', '127.0.0.1'):
+        try:
+            connection = pymysql.connect(
+                host=host,
+                user=user,
+                password=raw_password
+            )
+            with connection.cursor() as cursor:
+                cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+            connection.close()
+        except Exception as e:
+            print(f"[setup_database] Skipping DB auto-create (non-fatal): {e}")
+
+    # 4) Return SQLAlchemy URI (works for both local and hosted MySQL)
+    return f'mysql+pymysql://{user}:{password}@{host}/{db_name}'

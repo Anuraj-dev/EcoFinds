@@ -23,6 +23,19 @@ login_manager.init_app(app)
 # Initialize user authentication methods
 init_user_auth_methods()
 
+# Ensure tables exist (safe to call repeatedly). On Vercel serverless, this
+# runs once per cold start to guarantee schema is present.
+@app.before_request
+def _ensure_tables():
+    if not getattr(app, "_tables_created", False):
+        try:
+            with app.app_context():
+                db.create_all()
+            app._tables_created = True
+        except Exception as e:
+            # Non-fatal; queries will fail if DB is unreachable/misconfigured
+            print(f"[startup] DB init skipped/failed: {e}")
+
 # Setup OAuth
 oauth = OAuth(app)
 google = oauth.register(
