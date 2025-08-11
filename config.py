@@ -22,7 +22,26 @@ def setup_database():
     # 1) Prefer a full DATABASE_URL if present
     database_url = os.environ.get('DATABASE_URL')
     if database_url:
-        return database_url
+        # Support users pasting the full `psql 'postgresql://...'` command
+        try:
+            url = database_url.strip()
+            # If value looks like: psql 'postgresql://...'
+            if url.lower().startswith('psql '):
+                import shlex
+                parts = shlex.split(url)
+                if len(parts) >= 2:
+                    url = parts[1]
+            # Strip surrounding quotes if present
+            url = url.strip('"\'')
+            # Normalize scheme for SQLAlchemy/psycopg2
+            if url.startswith('postgres://'):
+                url = url.replace('postgres://', 'postgresql+psycopg2://', 1)
+            elif url.startswith('postgresql://'):
+                url = url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+            return url
+        except Exception as e:
+            print(f"[setup_database] Failed to normalize DATABASE_URL, using raw value: {e}")
+            return database_url
 
     # 2) Compose from individual parts (env-overridable)
     host = os.environ.get('DB_HOST', 'localhost')
