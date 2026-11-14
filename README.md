@@ -101,3 +101,7 @@ No. Buy now and checkout record the sale and show the item under My Orders. No c
 - Forms do not carry CSRF tokens.
 - The repo has no tests.
 - The schema comes from `db.create_all()`, and there are no migrations. Changing a model means a manual migration or running `reset_db.py`, which deletes data.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
