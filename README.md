@@ -1,378 +1,103 @@
-# 🌱 EcoFinds - Sustainable Marketplace
+<h1 align="center">EcoFinds</h1>
 
-[![Flask](https://img.shields.io/badge/Flask-2.3.x-blue.svg)](https://flask.palletsprojects.com/)
-[![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://www.python.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://www.mysql.com/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.x-purple.svg)](https://getbootstrap.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<p align="center">
+  A second-hand marketplace for pre-loved items, built with Flask.<br />
+  Sign in with Google, list what you no longer need, and buyers can add it to a cart or buy it now.
+</p>
 
-> **Find Treasures, Save the Planet** - A sustainable marketplace for pre-loved items that promotes circular economy and reduces waste.
+<p align="center">
+  <a href="https://eco-finds-mu.vercel.app/">Live demo</a>
+  ·
+  <a href="#running-it-locally">Run it locally</a>
+</p>
 
-## 🌟 Overview
+EcoFinds is a marketplace for second-hand items. Sellers post a listing with a title, description, whole-rupee price and an optional image URL. Buyers search, filter by category, price or status, and add items to a cart or wishlist. Guests can fill a cart before they sign in, and the cart moves to their account when they do.
 
-EcoFinds is a modern, eco-friendly marketplace web application built with Flask that allows users to buy and sell pre-loved items. The platform emphasizes sustainability by giving products a second life, reducing waste, and building a community of environmentally conscious consumers.
+It is a Flask app that renders Jinja templates on the server, with SQLAlchemy models and Bootstrap 5 for the layout. Sign-in needs a Google OAuth client. Data lives in MySQL by default, or in PostgreSQL through `DATABASE_URL`.
 
-## ✨ Key Features
+## What you get
 
-### 🔐 Authentication & User Management
+- **Google sign-in, no passwords.** Sign-in runs the OpenID Connect flow against Google with the `openid email profile` scopes. The app keys each user on Google's `sub` value and creates the account the first time you sign in.
+- **Guest carts that carry over.** A guest cart is tied to a session cookie. When you sign in, items move to your account, duplicates are dropped, and sold items are discarded.
+- **Sold items leave every cart.** The first purchase sets the listing's buyer. That purchase removes the listing from every cart and wishlist, and its page shows Sold.
+- **Search and filters.** Search matches titles and descriptions regardless of case. Filters narrow the catalog by category, minimum and maximum price, and whether an item is available or sold.
+- **Buy now and checkout.** Buy now buys one listing. Checkout buys every item still available in your cart, and tells you about any that sold in the meantime.
+- **Owner-only changes.** Only the seller can edit or delete a listing. Only a review's author can delete that review.
+- **Reviews and wishlist.** Signed-in users rate a listing from one to five stars with a comment. The wishlist keeps sold items so you can see what happened to them, and it moves an available item into your cart in one step.
+- **Orders and earnings.** My Orders lists what you bought, with a review form for each purchase. My Listings shows how many items you are selling and totals the prices of your sold listings as earnings.
 
-- **Google OAuth Integration** - Secure login with Google accounts
-- **User Profiles** - Personalized user experiences
-- **Session Management** - Seamless cart persistence across sessions
+## Running it locally
 
-### 🛍️ Marketplace Functionality
+You need Python 3, a MySQL or PostgreSQL database, and a Google OAuth client for sign-in.
 
-- **Product Listings** - Create, edit, and manage product listings
-- **Advanced Search & Filtering** - Search by category, price range, and availability
-- **Product Categories** - 10 different categories including Electronics, Fashion, Home & Garden
-- **Image Support** - Product image uploads with fallback defaults
+### Install dependencies
 
-### 🛒 Shopping Experience
-
-- **Shopping Cart** - Add/remove items with real-time updates
-- **Wishlist** - Save favorite items for later
-- **Quick Buy** - Instant checkout for single items
-- **Cart Persistence** - Anonymous and authenticated user cart management
-
-### 📱 User Interface
-
-- **Responsive Design** - Mobile-first approach with Bootstrap 5
-- **Modern UI/UX** - Clean, eco-friendly design with smooth animations
-- **Interactive Elements** - AJAX-powered interactions for seamless experience
-- **Accessibility** - ARIA labels and semantic HTML
-
-### ⭐ Reviews & Ratings
-
-- **Product Reviews** - Star-based rating system
-- **User Feedback** - Comment and review purchased items
-- **Review Management** - Edit and delete own reviews
-
-### 📊 User Dashboard
-
-- **My Listings** - Manage your selling products
-- **My Orders** - Track purchase history
-- **Sales Analytics** - View earnings and statistics
-
-## 🏗️ Technical Architecture
-
-### Backend Stack
-
-- **Framework**: Flask (Python web framework)
-- **Database**: MySQL with SQLAlchemy ORM
-- **Authentication**: Flask-Login + Google OAuth (Authlib)
-- **Session Management**: Flask sessions with UUID
-
-### Frontend Stack
-
-- **CSS Framework**: Bootstrap 5.3.x
-- **Icons**: Font Awesome 6.4.x + Bootstrap Icons
-- **Fonts**: Google Fonts (Plus Jakarta Sans)
-- **JavaScript**: Vanilla JS with AJAX for dynamic interactions
-
-### Database Schema
-
-```
-Users → Products (One-to-Many: seller/buyer)
-Products → Reviews (One-to-Many)
-Users → Reviews (One-to-Many)
-Users → CartItems (One-to-Many)
-Users → Wishlist (One-to-Many)
-Products → CartItems (One-to-Many)
-Products → Wishlist (One-to-Many)
-```
-
-## 📁 Project Structure
-
-```
-EcoFinds/
-├── app.py                 # Main Flask application
-├── config.py             # Configuration and database setup
-├── database.py           # Database initialization
-├── auth.py               # Authentication and login management
-├── requirements.txt      # Python dependencies
-├── reset_db.py          # Database reset utility
-├── models/              # Database models
-│   ├── __init__.py
-│   ├── user.py          # User model
-│   ├── product.py       # Product model and categories
-│   ├── review.py        # Review/rating model
-│   ├── cart.py          # Cart and wishlist models
-│   └── initData.py      # Sample data initialization
-├── templates/           # Jinja2 HTML templates
-│   ├── layouts/         # Base layouts and components
-│   │   ├── layout.html  # Main layout template
-│   │   ├── navbar.html  # Navigation component
-│   │   └── footer.html  # Footer component
-│   ├── index.html       # Product listing page
-│   ├── show.html        # Product detail page
-│   ├── new.html         # Create product form
-│   ├── edit.html        # Edit product form
-│   ├── cart.html        # Shopping cart page
-│   ├── checkout.html    # Checkout page
-│   ├── buy_now.html     # Quick purchase page
-│   ├── wishlist.html    # Wishlist page
-│   ├── my_orders.html   # User orders page
-│   ├── my_listings.html # User listings page
-│   ├── login.html       # Login page
-│   ├── signup.html      # Signup page (placeholder)
-│   └── root.html        # Landing page
-└── static/              # Static assets
-    ├── css/             # Stylesheets
-    │   ├── style.css    # Global styles
-    │   ├── navbar.css   # Navigation styles
-    │   ├── footer.css   # Footer styles
-    │   ├── index.css    # Product grid styles
-    │   ├── show.css     # Product detail styles
-    │   ├── form.css     # Form styling
-    │   ├── rating.css   # Star rating styles
-    │   └── root.css     # Landing page styles
-    └── js/              # JavaScript files
-        └── product-interactions.js # Cart and product interactions
-```
-
-## 🚀 Installation & Setup
-
-### Prerequisites
-
-- Python 3.8 or higher
-- MySQL 8.0 or higher
-- Git
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/ecofinds.git
-cd ecofinds
-```
-
-### 2. Create Virtual Environment
-
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# macOS/Linux
+```sh
+git clone https://github.com/Anuraj-dev/EcoFinds.git
+cd EcoFinds
 python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
+source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Database Setup
+### Configure
 
-```bash
-# Make sure MySQL is running
-# Update database credentials in config.py
-python reset_db.py  # Creates and initializes database
+```sh
+cp .env.example .env
 ```
 
-### 5. Environment Configuration
+Fill in `.env`:
 
-Create a `.env` file in the project root:
+| Variable | What it does |
+| --- | --- |
+| `SECRET_KEY` | Signs the session cookie. If it is unset, the app uses a fixed built-in key, so set your own. |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID. |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret. |
+| `DATABASE_URL` | A full database URL. When it is set, it replaces the `DB_` variables. `postgres://` and `postgresql://` are rewritten for the psycopg2 driver. |
+| `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` | MySQL connection, used when `DATABASE_URL` is empty. Defaults are `localhost`, `root`, no password and `ecofinds`. On localhost, the app tries to create the database if it is missing. |
 
-```env
-SECRET_KEY=your-secret-key-here
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-```
+### Set up Google sign-in
 
-### 6. Run the Application
+1. In the Google Cloud Console, create an OAuth client ID for a web application.
+2. Add `http://localhost:5000/auth/google/callback` as an authorized redirect URI.
+3. Copy the client ID and secret into `.env`.
 
-```bash
+A deployed copy needs the same `/auth/google/callback` path on its own domain. The app builds the callback URL from the host it is served on.
+
+### Start the app
+
+```sh
 python app.py
 ```
 
-The application will be available at `http://localhost:5000`
+Open `http://localhost:5000`. The app creates its tables on the first request, so there is no migration step.
 
-## 🔧 Configuration
+To load sample data, run `python models/initData.py`. It adds 20 sample listings under a seller called EcoFinds Store.
 
-### Database Configuration
+To start over, run `python reset_db.py`. It drops every table and recreates it, so all data is lost.
 
-Update `config.py` with your MySQL credentials:
+### Deploy on Vercel
 
-```python
-def setup_database():
-    password = urllib.parse.quote_plus('your-mysql-password')
-    return f'mysql+pymysql://root:{password}@localhost/ecofinds'
-```
+`vercel.json` sends every request to `api/index.py`, which exposes the Flask app to Vercel's Python runtime. Set the same environment variables in the Vercel project, and point `DATABASE_URL` at a hosted database, because the serverless function cannot reach your local database.
 
-### Google OAuth Setup
+## Does it take payments?
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials
-5. Add authorized redirect URIs: `http://localhost:5000/auth/google/callback`
-6. Update `.env` file with client ID and secret
+No. Buy now and checkout record the sale and show the item under My Orders. No card is charged, and no payment provider is connected.
 
-## 🎯 Usage
+## Where things live
 
-### For Buyers
+| Path | Contents |
+| --- | --- |
+| `app.py` | Every route: listings, cart, checkout, wishlist, reviews, and Google sign-in. |
+| `models/` | SQLAlchemy models: `User`, `Product`, `Review`, `CartItem` and `Wishlist`. |
+| `auth.py`, `config.py`, `database.py` | Login manager, environment settings and database URL handling. |
+| `templates/` | Jinja pages. `layouts/` holds the shared layout, navbar and footer. |
+| `static/` | One stylesheet per page area, and `js/product-interactions.js` for add-to-cart and the cart badge. |
+| `reset_db.py`, `models/initData.py` | Drop and recreate the schema, and load sample listings. |
 
-1. **Browse Products**: Visit `/products/` to see all available items
-2. **Search & Filter**: Use advanced filters to find specific items
-3. **Add to Cart**: Add items to cart for batch purchase
-4. **Quick Buy**: Use "Buy Now" for instant single-item purchase
-5. **Wishlist**: Save items for later consideration
-6. **Reviews**: Rate and review purchased items
+## Known limitations
 
-### For Sellers
-
-1. **Login**: Authenticate with Google account
-2. **Create Listing**: Navigate to "Sell Products" to add new items
-3. **Manage Listings**: View and edit your products in "My Listings"
-4. **Track Sales**: Monitor earnings and sold items
-
-## 🌍 Sustainability Features
-
-- **Circular Economy**: Promotes reuse and extends product lifecycles
-- **Waste Reduction**: Diverts items from landfills
-- **Community Building**: Connects environmentally conscious users
-- **Educational**: Raises awareness about sustainable consumption
-
-## 🔒 Security Features
-
-- **OAuth Authentication**: Secure Google-based login
-- **CSRF Protection**: Built-in Flask security
-- **SQL Injection Prevention**: SQLAlchemy ORM protection
-- **Session Security**: Secure session management
-- **Input Validation**: Server-side form validation
-
-## 📱 Mobile Responsiveness
-
-The application is fully responsive and optimized for:
-
-- 📱 Mobile devices (320px+)
-- 📟 Tablets (768px+)
-- 💻 Desktop (1024px+)
-- 🖥️ Large screens (1200px+)
-
-## 🎨 Design System
-
-### Color Palette
-
-- **Primary**: #f28d05 (Sustainable Orange)
-- **Secondary**: #219ebc (Ocean Blue)
-- **Accent**: #ffb703 (Warm Yellow)
-- **Dark**: #023047 (Deep Navy)
-- **Contrast**: #7c3c04 (Earth Brown)
-
-### Typography
-
-- **Font Family**: Plus Jakarta Sans
-- **Weights**: 200-800
-- **Responsive scaling**: rem-based sizing
-
-## 🧪 Testing
-
-### Manual Testing
-
-- User authentication flows
-- CRUD operations for products
-- Cart and wishlist functionality
-- Purchase workflows
-- Responsive design testing
-
-### Browser Compatibility
-
-- ✅ Chrome 90+
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ✅ Edge 90+
-
-## 🚀 Deployment
-
-### Production Considerations
-
-1. **Environment Variables**: Use production-grade secret keys
-2. **Database**: Configure production MySQL instance
-3. **SSL/HTTPS**: Enable SSL certificates
-4. **Error Handling**: Implement comprehensive error logging
-5. **Monitoring**: Add application monitoring
-6. **Backup**: Regular database backups
-
-### Deployment Platforms
-
-- **Heroku**: Easy deployment with MySQL add-on
-- **AWS**: EC2 with RDS MySQL
-- **DigitalOcean**: App Platform or Droplets
-- **Azure**: App Service with MySQL
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 for Python code
-- Use semantic commit messages
-- Add comments for complex logic
-- Test changes thoroughly
-- Update documentation as needed
-
-## 📈 Roadmap
-
-### Short Term (v1.1)
-
-- [ ] Email notifications for sales
-- [ ] Advanced search with filters
-- [ ] Product image upload functionality
-- [ ] User profile pages
-
-### Medium Term (v1.2)
-
-- [ ] Payment gateway integration
-- [ ] Real-time chat between buyers/sellers
-- [ ] Product recommendation engine
-- [ ] Mobile app development
-
-### Long Term (v2.0)
-
-- [ ] Multi-vendor marketplace
-- [ ] AI-powered product categorization
-- [ ] Blockchain-based authenticity verification
-- [ ] Carbon footprint tracking
-
-## 📊 Analytics & Metrics
-
-- **User Engagement**: Track active users and session duration
-- **Environmental Impact**: Calculate waste reduction metrics
-- **Sales Performance**: Monitor transaction volumes and values
-- **User Satisfaction**: Collect feedback and ratings
-
-## 🐛 Known Issues
-
-- Cart persistence across browser sessions needs improvement
-- Image upload functionality not yet implemented
-- Email notifications are placeholder only
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Flask Community** for the excellent framework
-- **Bootstrap Team** for the responsive design system
-- **Font Awesome** for the beautiful icons
-- **Google Fonts** for typography
-- **Unsplash** for placeholder images
-
-## 📞 Support
-
-For support, please open an issue on GitHub or contact the development team.
-
----
-
-**EcoFinds** - Building a sustainable future, one transaction at a time. 🌱
-
-_Made with ❤️ for the environment_
+- Listings take an image URL only. There is no file upload, and a listing without one shows a default photo.
+- Forms do not carry CSRF tokens.
+- The repo has no tests.
+- The schema comes from `db.create_all()`, and there are no migrations. Changing a model means a manual migration or running `reset_db.py`, which deletes data.
